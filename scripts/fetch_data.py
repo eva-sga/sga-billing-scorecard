@@ -106,12 +106,40 @@ JIRA_AUTH = (JIRA_EMAIL, JIRA_API_TOKEN)
 JIRA_HEADERS = {"Content-Type": "application/json", "Accept": "application/json"}
 
 def jira_search(jql, fields, start_at=0, max_results=100):
-    """Search issues via Jira REST API v2 (GET) - works with Cloud and Data Center."""
+    """Search issues via Jira REST API v2 (GET)."""
     url = f"{JIRA_BASE_URL}/rest/api/2/search"
     params = {"jql": jql, "fields": ",".join(fields), "maxResults": max_results, "startAt": start_at}
     resp = requests.get(url, auth=JIRA_AUTH, params=params)
+    if not resp.ok:
+        print(f"  Jira search {resp.status_code}: {resp.text[:500]}")
     resp.raise_for_status()
     return resp.json()
+
+def diagnose_jira():
+    """Test Jira API connectivity and print results."""
+    print("\n=== Jira API Diagnostics ===")
+    # Auth test
+    r = requests.get(f"{JIRA_BASE_URL}/rest/api/3/myself", auth=JIRA_AUTH)
+    print(f"Auth (GET /myself): {r.status_code}")
+    if r.ok:
+        u = r.json()
+        print(f"  Logged in as: {u.get('displayName')} / {u.get('emailAddress')}")
+    else:
+        print(f"  Body: {r.text[:300]}")
+    # Search v3
+    r = requests.get(f"{JIRA_BASE_URL}/rest/api/3/search", auth=JIRA_AUTH,
+                     params={"jql": "order by created DESC", "maxResults": 1})
+    print(f"Search v3: {r.status_code} | {r.text[:200] if not r.ok else 'OK'}")
+    # Search v2
+    r = requests.get(f"{JIRA_BASE_URL}/rest/api/2/search", auth=JIRA_AUTH,
+                     params={"jql": "order by created DESC", "maxResults": 1})
+    print(f"Search v2: {r.status_code} | {r.text[:200] if not r.ok else 'OK'}")
+    # Worklog updated API
+    since_ms = int(time.time() * 1000) - 7 * 24 * 3600 * 1000
+    r = requests.get(f"{JIRA_BASE_URL}/rest/api/3/worklog/updated", auth=JIRA_AUTH,
+                     params={"since": since_ms})
+    print(f"Worklog/updated: {r.status_code} | {r.text[:300] if not r.ok else str(len(r.json().get('values',[]))) + ' IDs'}")
+    print("=== End Diagnostics ===\n")
 
 def get_issue_worklogs(issue_key, start_date, end_date):
     result = []
@@ -297,4 +325,5 @@ def main():
     print(f"  YTD billable:   {ytd_data['billable_h']}h")
 
 if __name__ == "__main__":
+    diagnose_jira()
     main()
