@@ -1,47 +1,655 @@
 {
-  "_note": "This is placeholder data. Run the GitHub Action to populate with real Jira + Airtable data.",
-  "lastUpdated": "2026-03-11T08:00:00Z",
+  "lastUpdated": "2026-03-11T15:28:27.868601Z",
   "generatedDate": "2026-03-11",
   "weeklyBillableTarget": 356,
-  "billabilityTarget": 0.80,
+  "billabilityTarget": 0.8,
   "week": {
     "label": "week",
     "start": "2026-03-09",
     "end": "2026-03-15",
-    "total_h": 0,
-    "billable_h": 0,
-    "planned_h": 0,
+    "total_h": 194.49,
+    "billable_h": 140.24,
+    "planned_h": 0.0,
     "gap_h": null,
-    "billability": null,
-    "team_weekly_target": 356,
+    "billability": 0.7211,
     "members": [
-      {"name":"Adam Ďuriš",       "team":"Patrik Team", "target":0.80,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
-      {"name":"Ahsan Javed",       "team":"Apps Team",   "target":0.60,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
-      {"name":"Dan Dulgerian",     "team":"Miro Team",   "target":0.85,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
-      {"name":"David Gomola",      "team":"Miro Team",   "target":0.85,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
-      {"name":"David Kalla",       "team":"Miro Team",   "target":0.80,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
-      {"name":"David Simões",      "team":"Maintenance", "target":0.0, "total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
-      {"name":"Eva Martincová",    "team":"Management",  "target":0.0, "total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
-      {"name":"František Seifried","team":"Maintenance", "target":0.80,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
-      {"name":"Jakub Schubert",    "team":"Management",  "target":0.0, "total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
-      {"name":"João Antunes",      "team":"Independent", "target":0.75,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
-      {"name":"Marek Časnocha",    "team":"Independent", "target":0.80,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
-      {"name":"Michal Srníček",    "team":"Patrik Team", "target":0.80,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
-      {"name":"Miroslav Straka",   "team":"Miro Team",   "target":0.80,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
-      {"name":"Patrik Bajer",      "team":"Patrik Team", "target":0.80,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
-      {"name":"Roman Filenko",     "team":"Patrik Team", "target":0.80,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
-      {"name":"Ronalds Nordmanis", "team":"Independent", "target":0.80,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null}
+      {
+        "name": "Adam Ďuriš",
+        "team": "Patrik Team",
+        "target": 0.8,
+        "total_h": 0.7,
+        "billable_h": 0.7,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 1.0
+      },
+      {
+        "name": "Ahsan Javed",
+        "team": "Apps Team",
+        "target": 0.6,
+        "total_h": 14.45,
+        "billable_h": 3.5,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.2422
+      },
+      {
+        "name": "Dan Dulgerian",
+        "team": "Miro Team",
+        "target": 0.85,
+        "total_h": 18.63,
+        "billable_h": 15.27,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.8196
+      },
+      {
+        "name": "David Gomola",
+        "team": "Miro Team",
+        "target": 0.85,
+        "total_h": 20.07,
+        "billable_h": 17.15,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.8545
+      },
+      {
+        "name": "David Kalla",
+        "team": "Miro Team",
+        "target": 0.8,
+        "total_h": 24.15,
+        "billable_h": 19.85,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.8219
+      },
+      {
+        "name": "David Simões",
+        "team": "Maintenance",
+        "target": 0.0,
+        "total_h": 0.0,
+        "billable_h": 0.0,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": null
+      },
+      {
+        "name": "Eva Martincová",
+        "team": "Management",
+        "target": 0.0,
+        "total_h": 0.0,
+        "billable_h": 0.0,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": null
+      },
+      {
+        "name": "František Seifried",
+        "team": "Maintenance",
+        "target": 0.8,
+        "total_h": 18.25,
+        "billable_h": 9.0,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.4932
+      },
+      {
+        "name": "Jakub Schubert",
+        "team": "Management",
+        "target": 0.0,
+        "total_h": 0.0,
+        "billable_h": 0.0,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": null
+      },
+      {
+        "name": "João Antunes",
+        "team": "Independent",
+        "target": 0.75,
+        "total_h": 21.05,
+        "billable_h": 12.7,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.6033
+      },
+      {
+        "name": "Marek Časnocha",
+        "team": "Independent",
+        "target": 0.8,
+        "total_h": 16.42,
+        "billable_h": 14.67,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.8934
+      },
+      {
+        "name": "Michal Srníček",
+        "team": "Patrik Team",
+        "target": 0.8,
+        "total_h": 0.5,
+        "billable_h": 0.5,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 1.0
+      },
+      {
+        "name": "Miroslav Straka",
+        "team": "Miro Team",
+        "target": 0.8,
+        "total_h": 11.0,
+        "billable_h": 5.67,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.5155
+      },
+      {
+        "name": "Patrik Bajer",
+        "team": "Patrik Team",
+        "target": 0.8,
+        "total_h": 19.67,
+        "billable_h": 19.67,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 1.0
+      },
+      {
+        "name": "Roman Filenko",
+        "team": "Patrik Team",
+        "target": 0.8,
+        "total_h": 17.85,
+        "billable_h": 11.68,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.6543
+      },
+      {
+        "name": "Ronalds Nordmanis",
+        "team": "Independent",
+        "target": 0.8,
+        "total_h": 11.75,
+        "billable_h": 9.88,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.8409
+      }
     ],
-    "teams": {}
+    "teams": {
+      "Patrik Team": {
+        "total_h": 38.72,
+        "billable_h": 32.55,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.8407
+      },
+      "Apps Team": {
+        "total_h": 14.45,
+        "billable_h": 3.5,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.2422
+      },
+      "Miro Team": {
+        "total_h": 73.85,
+        "billable_h": 57.94,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.7846
+      },
+      "Maintenance": {
+        "total_h": 18.25,
+        "billable_h": 9.0,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.4932
+      },
+      "Management": {
+        "total_h": 0.0,
+        "billable_h": 0.0,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": null
+      },
+      "Independent": {
+        "total_h": 49.22,
+        "billable_h": 37.25,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.7568
+      }
+    },
+    "team_weekly_target": 356
   },
   "month": {
-    "label": "month", "start": "2026-03-01", "end": "2026-03-31",
-    "total_h": 0, "billable_h": 0, "planned_h": 0, "gap_h": null, "billability": null,
-    "members": [], "teams": {}
+    "label": "month",
+    "start": "2026-03-01",
+    "end": "2026-03-31",
+    "total_h": 649.51,
+    "billable_h": 475.52,
+    "planned_h": 0.0,
+    "gap_h": null,
+    "billability": 0.7321,
+    "members": [
+      {
+        "name": "Adam Ďuriš",
+        "team": "Patrik Team",
+        "target": 0.8,
+        "total_h": 31.83,
+        "billable_h": 31.28,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.9827
+      },
+      {
+        "name": "Ahsan Javed",
+        "team": "Apps Team",
+        "target": 0.6,
+        "total_h": 56.27,
+        "billable_h": 12.53,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.2227
+      },
+      {
+        "name": "Dan Dulgerian",
+        "team": "Miro Team",
+        "target": 0.85,
+        "total_h": 51.8,
+        "billable_h": 41.58,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.8027
+      },
+      {
+        "name": "David Gomola",
+        "team": "Miro Team",
+        "target": 0.85,
+        "total_h": 56.1,
+        "billable_h": 43.95,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.7834
+      },
+      {
+        "name": "David Kalla",
+        "team": "Miro Team",
+        "target": 0.8,
+        "total_h": 65.65,
+        "billable_h": 53.08,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.8085
+      },
+      {
+        "name": "David Simões",
+        "team": "Maintenance",
+        "target": 0.0,
+        "total_h": 0.0,
+        "billable_h": 0.0,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": null
+      },
+      {
+        "name": "Eva Martincová",
+        "team": "Management",
+        "target": 0.0,
+        "total_h": 0.0,
+        "billable_h": 0.0,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": null
+      },
+      {
+        "name": "František Seifried",
+        "team": "Maintenance",
+        "target": 0.8,
+        "total_h": 63.17,
+        "billable_h": 38.75,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.6134
+      },
+      {
+        "name": "Jakub Schubert",
+        "team": "Management",
+        "target": 0.0,
+        "total_h": 0.0,
+        "billable_h": 0.0,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": null
+      },
+      {
+        "name": "João Antunes",
+        "team": "Independent",
+        "target": 0.75,
+        "total_h": 52.47,
+        "billable_h": 25.07,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.4778
+      },
+      {
+        "name": "Marek Časnocha",
+        "team": "Independent",
+        "target": 0.8,
+        "total_h": 44.08,
+        "billable_h": 42.33,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.9603
+      },
+      {
+        "name": "Michal Srníček",
+        "team": "Patrik Team",
+        "target": 0.8,
+        "total_h": 32.5,
+        "billable_h": 31.25,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.9615
+      },
+      {
+        "name": "Miroslav Straka",
+        "team": "Miro Team",
+        "target": 0.8,
+        "total_h": 45.25,
+        "billable_h": 27.33,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.604
+      },
+      {
+        "name": "Patrik Bajer",
+        "team": "Patrik Team",
+        "target": 0.8,
+        "total_h": 59.17,
+        "billable_h": 57.58,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.9731
+      },
+      {
+        "name": "Roman Filenko",
+        "team": "Patrik Team",
+        "target": 0.8,
+        "total_h": 56.72,
+        "billable_h": 41.72,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.7355
+      },
+      {
+        "name": "Ronalds Nordmanis",
+        "team": "Independent",
+        "target": 0.8,
+        "total_h": 34.5,
+        "billable_h": 29.07,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.8426
+      }
+    ],
+    "teams": {
+      "Patrik Team": {
+        "total_h": 180.22,
+        "billable_h": 161.83,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.898
+      },
+      "Apps Team": {
+        "total_h": 56.27,
+        "billable_h": 12.53,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.2227
+      },
+      "Miro Team": {
+        "total_h": 218.8,
+        "billable_h": 165.94,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.7584
+      },
+      "Maintenance": {
+        "total_h": 63.17,
+        "billable_h": 38.75,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.6134
+      },
+      "Management": {
+        "total_h": 0.0,
+        "billable_h": 0.0,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": null
+      },
+      "Independent": {
+        "total_h": 131.05,
+        "billable_h": 96.47,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.7361
+      }
+    }
   },
   "ytd": {
-    "label": "ytd", "start": "2026-01-01", "end": "2026-03-11",
-    "total_h": 0, "billable_h": 0, "planned_h": 0, "gap_h": null, "billability": null,
-    "members": [], "teams": {}
+    "label": "ytd",
+    "start": "2026-01-01",
+    "end": "2026-03-11",
+    "total_h": 3962.57,
+    "billable_h": 2805.04,
+    "planned_h": 0.0,
+    "gap_h": null,
+    "billability": 0.7079,
+    "members": [
+      {
+        "name": "Adam Ďuriš",
+        "team": "Patrik Team",
+        "target": 0.8,
+        "total_h": 261.5,
+        "billable_h": 248.92,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.9519
+      },
+      {
+        "name": "Ahsan Javed",
+        "team": "Apps Team",
+        "target": 0.6,
+        "total_h": 316.12,
+        "billable_h": 114.9,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.3635
+      },
+      {
+        "name": "Dan Dulgerian",
+        "team": "Miro Team",
+        "target": 0.85,
+        "total_h": 299.97,
+        "billable_h": 256.37,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.8547
+      },
+      {
+        "name": "David Gomola",
+        "team": "Miro Team",
+        "target": 0.85,
+        "total_h": 272.57,
+        "billable_h": 160.28,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.588
+      },
+      {
+        "name": "David Kalla",
+        "team": "Miro Team",
+        "target": 0.8,
+        "total_h": 388.43,
+        "billable_h": 293.55,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.7557
+      },
+      {
+        "name": "David Simões",
+        "team": "Maintenance",
+        "target": 0.0,
+        "total_h": 2.7,
+        "billable_h": 2.7,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": null
+      },
+      {
+        "name": "Eva Martincová",
+        "team": "Management",
+        "target": 0.0,
+        "total_h": 0.0,
+        "billable_h": 0.0,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": null
+      },
+      {
+        "name": "František Seifried",
+        "team": "Maintenance",
+        "target": 0.8,
+        "total_h": 383.0,
+        "billable_h": 226.08,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.5903
+      },
+      {
+        "name": "Jakub Schubert",
+        "team": "Management",
+        "target": 0.0,
+        "total_h": 0.0,
+        "billable_h": 0.0,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": null
+      },
+      {
+        "name": "João Antunes",
+        "team": "Independent",
+        "target": 0.75,
+        "total_h": 276.98,
+        "billable_h": 109.15,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.3941
+      },
+      {
+        "name": "Marek Časnocha",
+        "team": "Independent",
+        "target": 0.8,
+        "total_h": 314.0,
+        "billable_h": 294.75,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.9387
+      },
+      {
+        "name": "Michal Srníček",
+        "team": "Patrik Team",
+        "target": 0.8,
+        "total_h": 258.92,
+        "billable_h": 237.17,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.916
+      },
+      {
+        "name": "Miroslav Straka",
+        "team": "Miro Team",
+        "target": 0.8,
+        "total_h": 333.45,
+        "billable_h": 197.62,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.5927
+      },
+      {
+        "name": "Patrik Bajer",
+        "team": "Patrik Team",
+        "target": 0.8,
+        "total_h": 300.0,
+        "billable_h": 280.42,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.9347
+      },
+      {
+        "name": "Roman Filenko",
+        "team": "Patrik Team",
+        "target": 0.8,
+        "total_h": 354.18,
+        "billable_h": 218.85,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.6179
+      },
+      {
+        "name": "Ronalds Nordmanis",
+        "team": "Independent",
+        "target": 0.8,
+        "total_h": 200.75,
+        "billable_h": 164.28,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.8183
+      }
+    ],
+    "teams": {
+      "Patrik Team": {
+        "total_h": 1174.6,
+        "billable_h": 985.36,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.8389
+      },
+      "Apps Team": {
+        "total_h": 316.12,
+        "billable_h": 114.9,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.3635
+      },
+      "Miro Team": {
+        "total_h": 1294.42,
+        "billable_h": 907.82,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.7013
+      },
+      "Maintenance": {
+        "total_h": 385.7,
+        "billable_h": 228.78,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.5932
+      },
+      "Management": {
+        "total_h": 0.0,
+        "billable_h": 0.0,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": null
+      },
+      "Independent": {
+        "total_h": 791.73,
+        "billable_h": 568.18,
+        "planned_h": 0.0,
+        "gap_h": null,
+        "billability": 0.7176
+      }
+    }
   }
 }
