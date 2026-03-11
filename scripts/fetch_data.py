@@ -47,7 +47,6 @@ TEAM_MEMBERS = [
     {"name": "Ronalds Nordmanis", "accountId": "712020:04ef5dbe-3670-4f4e-b631-535b48c9874c", "team": "Independent", "target": 0.80},
 ]
 
-# Display names map (for dashboard)
 DISPLAY_NAMES = {
     "Adam Duris":        "Adam \u010euriš",
     "David Simoes":      "David Sim\u00f5es",
@@ -100,6 +99,10 @@ def working_days(start, end):
         cur += timedelta(days=1)
     return count
 
+def date_to_ms(d):
+    """Convert date to epoch milliseconds (start of day UTC)."""
+    return int(datetime(d.year, d.month, d.day).timestamp() * 1000)
+
 # ─── JIRA HELPERS ────────────────────────────────────────────────────────────────
 
 JIRA_AUTH    = (JIRA_EMAIL, JIRA_API_TOKEN)
@@ -116,11 +119,11 @@ def jira_get_with_retry(url, params=None, max_retries=6):
             time.sleep(retry_after)
             continue
         return resp
-    return resp  # return final response even if still 429
+    return resp
 
 
 def jira_search(jql, fields, next_page_token=None, max_results=100):
-    """Search issues via /rest/api/3/search/jql endpoint with nextPageToken pagination."""
+    """Search issues via /rest/api/3/search/jql endpoint."""
     url = f"{JIRA_BASE_URL}/rest/api/3/search/jql"
     params = {"jql": jql, "fields": ",".join(fields), "maxResults": max_results}
     if next_page_token:
@@ -133,28 +136,45 @@ def jira_search(jql, fields, next_page_token=None, max_results=100):
 
 
 def get_issue_worklogs(issue_key, start_date, end_date):
+    """
+    Fetch worklogs for one issue, scoped to [start_date, end_date].
+    Uses startedAfter/startedBefore params to avoid fetching historical data.
+    """
     result = []
     start_at = 0
+    # Add 1 day to end_date to make it inclusive
+    started_after  = date_to_ms(datetime.strptime(start_date, "%Y-%m-%d").date())
+    started_before = date_to_ms(datetime.strptime(end_date,   "%Y-%m-%d").date() + timedelta(days=1))
     while True:
         url = f"{JIRA_BASE_URL}/rest/api/3/issue/{issue_key}/worklog"
-        resp = jira_get_with_retry(url, params={"startAt": start_at, "maxResults": 100})
+        params = {
+            "startAt": start_at,
+            "maxResults": 100,
+            "startedAfter":  started_after,
+            "startedBefore": started_before,
+        }
+        resp = jira_get_with_retry(url, params=params)
         resp.raise_for_status()
         data = resp.json()
-        for wl in data["worklogs"]:
-            wl_date = wl["started"][:10]
-            if start_date <= wl_date <= end_date:
-                result.append(wl)
+        result.extend(data["worklogs"])
         if start_at + 100 >= data["total"]:
             break
         start_at += 100
-        time.sleep(0.3)  # small pause between worklog pages
+        time.sleep(0.1)
     return result
 
-# ─── MAIN FETCH ──────────────────────────────────────────────────────────────────
 
-def fetch_jira_worklogs(start_date, end_date):
-    print(f"\nFetching Jira worklogs {start_date} to {end_date}")
-    jql = f'worklogDate >= "{start_date}" AND worklogDate <= "{end_date}"'
+# ─── MAIN FETCH ──────────────────────────────────────────────────────────────────
+# Key optimisation: fetch issues ONCE for the full YTD range, then partition
+# client-side into week / month / YTD buckets.  This reduces Jira API calls ~3x.
+
+def fetch_all_worklogs(ys, ye):
+    """
+    Fetch all worklogs for the YTD period in one pass.
+    Returns a list of dicts: {wl fields..., _is_billable: bool}
+    """
+    print(f"\nFetching Jira issues with worklogs {ys} to {ye}")
+    jql = f'worklogDate >= "{ys}" AND worklogDate <= "{ye}"'
     issues = []
     next_page_token = None
     while True:
@@ -167,25 +187,40 @@ def fetch_jira_worklogs(start_date, end_date):
             break
         time.sleep(0.2)
 
-    print(f"  Found {len(issues)} issues. Fetching worklogs...")
-    totals = defaultdict(lambda: {"total_seconds": 0, "billable_seconds": 0})
-
+    print(f"  Found {len(issues)} issues total. Fetching worklogs...")
+    all_worklogs = []
     for i, issue in enumerate(issues):
-        project_id = int(issue["fields"]["project"]["id"])
+        project_id  = int(issue["fields"]["project"]["id"])
         is_billable = project_id in BILLABLE_PROJECT_IDS
-        worklogs = get_issue_worklogs(issue["key"], start_date, end_date)
+        worklogs = get_issue_worklogs(issue["key"], ys, ye)
         for wl in worklogs:
+            wl["_is_billable"] = is_billable
+        all_worklogs.extend(worklogs)
+        if (i + 1) % 50 == 0:
+            print(f"  Processed {i + 1}/{len(issues)} issues ({len(all_worklogs)} worklogs so far)...")
+        time.sleep(0.1)   # light pacing — retry handles actual 429s
+
+    print(f"  Done: {len(all_worklogs)} worklogs from {len(issues)} issues.")
+    return all_worklogs
+
+
+def compute_totals(all_worklogs, start_date, end_date):
+    """
+    Filter worklogs to [start_date, end_date] and aggregate per person.
+    Pure in-memory — no additional API calls.
+    """
+    totals = defaultdict(lambda: {"total_seconds": 0, "billable_seconds": 0})
+    for wl in all_worklogs:
+        wl_date = wl["started"][:10]
+        if start_date <= wl_date <= end_date:
             aid = wl["author"]["accountId"]
             if aid in ACCOUNT_IDS:
                 secs = wl["timeSpentSeconds"]
                 totals[aid]["total_seconds"] += secs
-                if is_billable:
+                if wl["_is_billable"]:
                     totals[aid]["billable_seconds"] += secs
-        if (i + 1) % 10 == 0:
-            print(f"  Processed {i + 1}/{len(issues)} issues...")
-        time.sleep(0.5)  # pace requests to avoid rate limiting
-
     return dict(totals)
+
 
 # ─── AIRTABLE FETCH ──────────────────────────────────────────────────────────────
 
@@ -308,12 +343,13 @@ def main():
 
     capacity = fetch_capacity_planning()
 
-    print("\n--- WEEK ---")
-    wl_w = fetch_jira_worklogs(ws.isoformat(), we.isoformat())
-    print("\n--- MONTH ---")
-    wl_m = fetch_jira_worklogs(ms.isoformat(), me.isoformat())
-    print("\n--- YTD ---")
-    wl_y = fetch_jira_worklogs(ys.isoformat(), ye.isoformat())
+    # Fetch ALL worklogs once for the full YTD range, then slice in-memory
+    all_worklogs = fetch_all_worklogs(ys.isoformat(), ye.isoformat())
+
+    print("\nComputing period metrics...")
+    wl_w = compute_totals(all_worklogs, ws.isoformat(), we.isoformat())
+    wl_m = compute_totals(all_worklogs, ms.isoformat(), me.isoformat())
+    wl_y = compute_totals(all_worklogs, ys.isoformat(), ye.isoformat())
 
     week_data  = build_period_metrics(wl_w, capacity, ws, we, "week")
     month_data = build_period_metrics(wl_m, capacity, ms, me, "month")
