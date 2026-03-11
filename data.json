@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-11T18:32:53.680443Z",
+  "lastUpdated": "2026-03-11T19:29:33.767791Z",
   "generatedDate": "2026-03-11",
   "weeklyBillableTarget": 356,
   "billabilityTarget": 0.8,
@@ -7,11 +7,11 @@
     "label": "week",
     "start": "2026-03-09",
     "end": "2026-03-15",
-    "total_h": 205.65,
-    "billable_h": 149.97,
+    "total_h": 210.57,
+    "billable_h": 153.39,
     "planned_h": 0.0,
     "gap_h": null,
-    "billability": 0.7292,
+    "billability": 0.7285,
     "members": [
       {
         "name": "Adam Ďuriš",
@@ -117,11 +117,11 @@
         "name": "Marek Časnocha",
         "team": "Independent",
         "target": 0.8,
-        "total_h": 16.83,
-        "billable_h": 15.08,
+        "total_h": 19.5,
+        "billable_h": 17.75,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.896
+        "billability": 0.9103
       },
       {
         "name": "Michal Srníček",
@@ -137,11 +137,11 @@
         "name": "Miroslav Straka",
         "team": "Miro Team",
         "target": 0.8,
-        "total_h": 11.0,
+        "total_h": 12.5,
         "billable_h": 5.67,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.5155
+        "billability": 0.4536
       },
       {
         "name": "Patrik Bajer",
@@ -167,11 +167,11 @@
         "name": "Ronalds Nordmanis",
         "team": "Independent",
         "target": 0.8,
-        "total_h": 12.83,
-        "billable_h": 10.63,
+        "total_h": 13.58,
+        "billable_h": 11.38,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.8285
+        "billability": 0.838
       }
     ],
     "teams": {
@@ -190,11 +190,11 @@
         "billability": 0.2422
       },
       "Miro Team": {
-        "total_h": 73.85,
+        "total_h": 75.35,
         "billable_h": 57.94,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.7846
+        "billability": 0.7689
       },
       "Maintenance": {
         "total_h": 24.5,
@@ -211,11 +211,11 @@
         "billability": null
       },
       "Independent": {
-        "total_h": 52.06,
-        "billable_h": 39.16,
+        "total_h": 55.48,
+        "billable_h": 42.58,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.7522
+        "billability": 0.7675
       }
     },
     "team_weekly_target": 356
@@ -224,11 +224,11 @@
     "label": "month",
     "start": "2026-03-01",
     "end": "2026-03-31",
-    "total_h": 660.67,
-    "billable_h": 485.25,
+    "total_h": 666.05,
+    "billable_h": 489.13,
     "planned_h": 0.0,
     "gap_h": null,
-    "billability": 0.7345,
+    "billability": 0.7344,
     "members": [
       {
         "name": "Adam Ďuriš",
@@ -264,11 +264,11 @@
         "name": "David Gomola",
         "team": "Miro Team",
         "target": 0.85,
-        "total_h": 56.1,
-        "billable_h": 43.95,
+        "total_h": 56.4,
+        "billable_h": 44.25,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.7834
+        "billability": 0.7846
       },
       {
         "name": "David Kalla",
@@ -334,11 +334,11 @@
         "name": "Marek Časnocha",
         "team": "Independent",
         "target": 0.8,
-        "total_h": 44.5,
-        "billable_h": 42.75,
+        "total_h": 47.33,
+        "billable_h": 45.58,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.9607
+        "billability": 0.963
       },
       {
         "name": "Michal Srníček",
@@ -354,11 +354,11 @@
         "name": "Miroslav Straka",
         "team": "Miro Team",
         "target": 0.8,
-        "total_h": 45.25,
+        "total_h": 46.75,
         "billable_h": 27.33,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.604
+        "billability": 0.5846
       },
       {
         "name": "Patrik Bajer",
@@ -384,11 +384,11 @@
         "name": "Ronalds Nordmanis",
         "team": "Independent",
         "target": 0.8,
-        "total_h": 35.58,
-        "billable_h": 29.82,
+        "total_h": 36.33,
+        "billable_h": 30.57,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.8381
+        "billability": 0.8415
       }
     ],
     "teams": {
@@ -407,11 +407,11 @@
         "billability": 0.2227
       },
       "Miro Team": {
-        "total_h": 218.8,
-        "billable_h": 165.94,
+        "total_h": 220.6,
+        "billable_h": 166.24,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.7584
+        "billability": 0.7536
       },
       "Maintenance": {
         "total_h": 69.42,
@@ -428,11 +428,11 @@
         "billability": null
       },
       "Independent": {
-        "total_h": 133.9,
-        "billable_h": 98.39,
+        "total_h": 137.48,
+        "billable_h": 101.97,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.7348
+        "billability": 0.7417
       }
     }
   },
@@ -440,8 +440,8 @@
     "label": "ytd",
     "start": "2026-01-01",
     "end": "2026-03-11",
-    "total_h": 3976.76,
-    "billable_h": 2817.55,
+    "total_h": 3982.15,
+    "billable_h": 2821.44,
     "planned_h": 0.0,
     "gap_h": null,
     "billability": 0.7085,
@@ -480,11 +480,11 @@
         "name": "David Gomola",
         "team": "Miro Team",
         "target": 0.85,
-        "total_h": 272.57,
-        "billable_h": 160.28,
+        "total_h": 272.87,
+        "billable_h": 160.58,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.588
+        "billability": 0.5885
       },
       {
         "name": "David Kalla",
@@ -550,11 +550,11 @@
         "name": "Marek Časnocha",
         "team": "Independent",
         "target": 0.8,
-        "total_h": 314.58,
-        "billable_h": 295.33,
+        "total_h": 317.42,
+        "billable_h": 298.17,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.9388
+        "billability": 0.9394
       },
       {
         "name": "Michal Srníček",
@@ -570,11 +570,11 @@
         "name": "Miroslav Straka",
         "team": "Miro Team",
         "target": 0.8,
-        "total_h": 333.45,
+        "total_h": 334.95,
         "billable_h": 197.62,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.5927
+        "billability": 0.59
       },
       {
         "name": "Patrik Bajer",
@@ -600,11 +600,11 @@
         "name": "Ronalds Nordmanis",
         "team": "Independent",
         "target": 0.8,
-        "total_h": 201.83,
-        "billable_h": 165.03,
+        "total_h": 202.58,
+        "billable_h": 165.78,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.8177
+        "billability": 0.8183
       }
     ],
     "teams": {
@@ -623,11 +623,11 @@
         "billability": 0.3635
       },
       "Miro Team": {
-        "total_h": 1295.53,
-        "billable_h": 908.93,
+        "total_h": 1297.33,
+        "billable_h": 909.23,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.7016
+        "billability": 0.7008
       },
       "Maintenance": {
         "total_h": 392.2,
@@ -644,11 +644,11 @@
         "billability": null
       },
       "Independent": {
-        "total_h": 794.74,
-        "billable_h": 570.26,
+        "total_h": 798.33,
+        "billable_h": 573.85,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.7175
+        "billability": 0.7188
       }
     }
   }
