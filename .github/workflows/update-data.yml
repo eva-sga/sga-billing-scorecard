@@ -2,8 +2,8 @@ name: Refresh Billing Data
 
 on:
   schedule:
-    - cron: "0,30 * * * *"   # every 30 minutes
-  workflow_dispatch:           # also allow manual trigger from GitHub UI
+    - cron: "*/5 * * * *"   # every 5 minutes
+  workflow_dispatch:          # also allow manual trigger from GitHub UI
 
 permissions:
   contents: write
@@ -25,9 +25,9 @@ jobs:
 
       - name: Fetch data from Jira + Airtable
         env:
-          JIRA_EMAIL:      ${{ secrets.JIRA_EMAIL }}
-          JIRA_API_TOKEN:  ${{ secrets.JIRA_API_TOKEN }}
-          AIRTABLE_TOKEN:  ${{ secrets.AIRTABLE_TOKEN }}
+          JIRA_EMAIL:     ${{ secrets.JIRA_EMAIL }}
+          JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
+          AIRTABLE_TOKEN: ${{ secrets.AIRTABLE_TOKEN }}
         run: python scripts/fetch_data.py
 
       - name: Commit updated data.json
