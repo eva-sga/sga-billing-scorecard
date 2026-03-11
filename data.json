@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-11T20:02:30.431269Z",
+  "lastUpdated": "2026-03-11T20:48:55.747195Z",
   "generatedDate": "2026-03-11",
   "weeklyBillableTarget": 356,
   "billabilityTarget": 0.8,
@@ -7,11 +7,11 @@
     "label": "week",
     "start": "2026-03-09",
     "end": "2026-03-15",
-    "total_h": 210.57,
-    "billable_h": 153.39,
+    "total_h": 210.9,
+    "billable_h": 153.72,
     "planned_h": 0.0,
     "gap_h": null,
-    "billability": 0.7285,
+    "billability": 0.7289,
     "members": [
       {
         "name": "Adam Ďuriš",
@@ -87,11 +87,11 @@
         "name": "František Seifried",
         "team": "Maintenance",
         "target": 0.8,
-        "total_h": 24.5,
-        "billable_h": 14.75,
+        "total_h": 24.83,
+        "billable_h": 15.08,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.602
+        "billability": 0.6073
       },
       {
         "name": "Jakub Schubert",
@@ -197,11 +197,11 @@
         "billability": 0.7689
       },
       "Maintenance": {
-        "total_h": 24.5,
-        "billable_h": 14.75,
+        "total_h": 24.83,
+        "billable_h": 15.08,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.602
+        "billability": 0.6073
       },
       "Management": {
         "total_h": 0.0,
@@ -224,11 +224,11 @@
     "label": "month",
     "start": "2026-03-01",
     "end": "2026-03-31",
-    "total_h": 666.05,
-    "billable_h": 489.13,
+    "total_h": 666.38,
+    "billable_h": 489.46,
     "planned_h": 0.0,
     "gap_h": null,
-    "billability": 0.7344,
+    "billability": 0.7345,
     "members": [
       {
         "name": "Adam Ďuriš",
@@ -304,11 +304,11 @@
         "name": "František Seifried",
         "team": "Maintenance",
         "target": 0.8,
-        "total_h": 69.42,
-        "billable_h": 44.5,
+        "total_h": 69.75,
+        "billable_h": 44.83,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.641
+        "billability": 0.6427
       },
       {
         "name": "Jakub Schubert",
@@ -414,11 +414,11 @@
         "billability": 0.7536
       },
       "Maintenance": {
-        "total_h": 69.42,
-        "billable_h": 44.5,
+        "total_h": 69.75,
+        "billable_h": 44.83,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.641
+        "billability": 0.6427
       },
       "Management": {
         "total_h": 0.0,
@@ -440,8 +440,8 @@
     "label": "ytd",
     "start": "2026-01-01",
     "end": "2026-03-11",
-    "total_h": 3982.15,
-    "billable_h": 2821.44,
+    "total_h": 3982.48,
+    "billable_h": 2821.78,
     "planned_h": 0.0,
     "gap_h": null,
     "billability": 0.7085,
@@ -520,11 +520,11 @@
         "name": "František Seifried",
         "team": "Maintenance",
         "target": 0.8,
-        "total_h": 389.5,
-        "billable_h": 231.83,
+        "total_h": 389.83,
+        "billable_h": 232.17,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.5952
+        "billability": 0.5956
       },
       {
         "name": "Jakub Schubert",
@@ -630,11 +630,11 @@
         "billability": 0.7008
       },
       "Maintenance": {
-        "total_h": 392.2,
-        "billable_h": 234.53,
+        "total_h": 392.53,
+        "billable_h": 234.87,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.598
+        "billability": 0.5983
       },
       "Management": {
         "total_h": 0.0,
