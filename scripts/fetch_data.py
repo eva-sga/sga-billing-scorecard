@@ -105,11 +105,11 @@ def working_days(start, end):
 JIRA_AUTH = (JIRA_EMAIL, JIRA_API_TOKEN)
 JIRA_HEADERS = {"Content-Type": "application/json", "Accept": "application/json"}
 
-def jira_search_post(jql, fields, start_at=0, max_results=100):
-    """Use POST to avoid URL length limits with large JQL queries."""
-    url = f"{JIRA_BASE_URL}/rest/api/3/search"
-    body = {"jql": jql, "fields": fields, "maxResults": max_results, "startAt": start_at}
-    resp = requests.post(url, auth=JIRA_AUTH, headers=JIRA_HEADERS, json=body)
+def jira_search(jql, fields, start_at=0, max_results=100):
+    """Search issues via Jira REST API v2 (GET) - works with Cloud and Data Center."""
+    url = f"{JIRA_BASE_URL}/rest/api/2/search"
+    params = {"jql": jql, "fields": ",".join(fields), "maxResults": max_results, "startAt": start_at}
+    resp = requests.get(url, auth=JIRA_AUTH, params=params)
     resp.raise_for_status()
     return resp.json()
 
@@ -134,13 +134,12 @@ def get_issue_worklogs(issue_key, start_date, end_date):
 
 def fetch_jira_worklogs(start_date, end_date):
     print(f"\nFetching Jira worklogs {start_date} to {end_date}")
-    user_list = ", ".join(f'"{uid}"' for uid in ACCOUNT_IDS)
-    jql = f'worklogAuthor in ({user_list}) AND worklogDate >= "{start_date}" AND worklogDate <= "{end_date}"'
+    jql = f'worklogDate >= "{start_date}" AND worklogDate <= "{end_date}"'
 
     issues = []
     start_at = 0
     while True:
-        data = jira_search_post(jql, ["id", "key", "project"], start_at)
+        data = jira_search(jql, ["id", "key", "project"], start_at)
         issues.extend(data["issues"])
         print(f"  Fetched {len(issues)}/{data['total']} issues...")
         if start_at + 100 >= data["total"]:
