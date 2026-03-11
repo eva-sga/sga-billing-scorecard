@@ -105,10 +105,12 @@ def working_days(start, end):
 JIRA_AUTH = (JIRA_EMAIL, JIRA_API_TOKEN)
 JIRA_HEADERS = {"Content-Type": "application/json", "Accept": "application/json"}
 
-def jira_search(jql, fields, start_at=0, max_results=100):
-    """Search issues via Jira REST API v2 (GET)."""
-    url = f"{JIRA_BASE_URL}/rest/api/2/search"
-    params = {"jql": jql, "fields": ",".join(fields), "maxResults": max_results, "startAt": start_at}
+def jira_search(jql, fields, next_page_token=None, max_results=100):
+    """Search issues via new Jira REST API /search/jql endpoint (replaces deprecated /search)."""
+    url = f"{JIRA_BASE_URL}/rest/api/3/search/jql"
+    params = {"jql": jql, "fields": ",".join(fields), "maxResults": max_results}
+    if next_page_token:
+        params["nextPageToken"] = next_page_token
     resp = requests.get(url, auth=JIRA_AUTH, params=params)
     if not resp.ok:
         print(f"  Jira search {resp.status_code}: {resp.text[:500]}")
@@ -165,14 +167,15 @@ def fetch_jira_worklogs(start_date, end_date):
     jql = f'worklogDate >= "{start_date}" AND worklogDate <= "{end_date}"'
 
     issues = []
-    start_at = 0
+    next_page_token = None
     while True:
-        data = jira_search(jql, ["id", "key", "project"], start_at)
-        issues.extend(data["issues"])
-        print(f"  Fetched {len(issues)}/{data['total']} issues...")
-        if start_at + 100 >= data["total"]:
+        data = jira_search(jql, ["id", "key", "project"], next_page_token=next_page_token)
+        batch = data.get("issues", [])
+        issues.extend(batch)
+        print(f"  Fetched {len(issues)} issues so far...")
+        next_page_token = data.get("nextPageToken")
+        if not next_page_token:
             break
-        start_at += 100
         time.sleep(0.2)
 
     print(f"  Found {len(issues)} issues. Fetching worklogs...")
