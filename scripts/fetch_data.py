@@ -29,8 +29,8 @@ BILLABILITY_TARGET     = 0.80
 # ─── TEAM MEMBERS ──────────────────────────────────────────────────────────────
 
 TEAM_MEMBERS = [
-    {"name": "Adam Duris",        "accountId": "712020:4488b5a7-b088-4a5a-9a78-7a94b2e82ffd", "team": "Patrik Team",  "target": 0.80},
-    {"name": "Ahsan Javed",       "accountId": "712020:ebc61b18-0416-4683-b091-51ea2863e827", "team": "Apps Team",    "target": 0.60},
+    {"name": "Adam Duris",        "accountId": "712020:4488b5a7-b088-4a5a-9a78-7a94b2e82ffd", "team": "Patrik Team", "target": 0.80},
+    {"name": "Ahsan Javed",       "accountId": "712020:ebc61b18-0416-4683-b091-51ea2863e827", "team": "Apps Team",   "target": 0.60},
     {"name": "Dan Dulgerian",     "accountId": "712020:1d8f40be-0dfb-4ccd-b939-6a46d6ce25a2", "team": "Miro Team",   "target": 0.85},
     {"name": "David Gomola",      "accountId": "712020:8279b16f-cb5c-4c1b-8811-ee3afafc9814", "team": "Miro Team",   "target": 0.85},
     {"name": "David Kalla",       "accountId": "712020:75e42ba2-3da7-4ef9-8518-b2e43eb3f673", "team": "Miro Team",   "target": 0.80},
@@ -49,13 +49,13 @@ TEAM_MEMBERS = [
 
 # Display names map (for dashboard)
 DISPLAY_NAMES = {
-    "Adam Duris": "Adam \u010euriš",
-    "David Simoes": "David Sim\u00f5es",
-    "Eva Martincova": "Eva Martincov\u00e1",
-    "Frantisek Seifried": "Franti\u0161ek Seifried",
-    "Joao Antunes": "Jo\u00e3o Antunes",
-    "Marek Casnocha": "Marek \u010casnocha",
-    "Michal Srnicek": "Michal Srn\u00ed\u010dek",
+    "Adam Duris":        "Adam \u010euriš",
+    "David Simoes":      "David Sim\u00f5es",
+    "Eva Martincova":    "Eva Martincov\u00e1",
+    "Frantisek Seifried":"Franti\u0161ek Seifried",
+    "Joao Antunes":      "Jo\u00e3o Antunes",
+    "Marek Casnocha":    "Marek \u010casnocha",
+    "Michal Srnicek":    "Michal Srn\u00ed\u010dek",
 }
 
 ACCOUNT_MAP = {m["accountId"]: m for m in TEAM_MEMBERS}
@@ -77,7 +77,7 @@ BILLABLE_PROJECT_IDS = {
     10079,10163
 }
 
-# ─── DATE HELPERS ──────────────────────────────────────────────────────────────
+# ─── DATE HELPERS ────────────────────────────────────────────────────────────────
 
 def week_bounds(d):
     monday = d - timedelta(days=d.weekday())
@@ -100,55 +100,44 @@ def working_days(start, end):
         cur += timedelta(days=1)
     return count
 
-# ─── JIRA HELPERS ──────────────────────────────────────────────────────────────
+# ─── JIRA HELPERS ────────────────────────────────────────────────────────────────
 
-JIRA_AUTH = (JIRA_EMAIL, JIRA_API_TOKEN)
+JIRA_AUTH    = (JIRA_EMAIL, JIRA_API_TOKEN)
 JIRA_HEADERS = {"Content-Type": "application/json", "Accept": "application/json"}
 
+
+def jira_get_with_retry(url, params=None, max_retries=6):
+    """GET a Jira URL with exponential backoff on 429 rate limits."""
+    for attempt in range(max_retries):
+        resp = requests.get(url, auth=JIRA_AUTH, params=params)
+        if resp.status_code == 429:
+            retry_after = int(resp.headers.get("Retry-After", min(2 ** attempt, 60)))
+            print(f"  Rate limited (429). Waiting {retry_after}s... (attempt {attempt + 1}/{max_retries})")
+            time.sleep(retry_after)
+            continue
+        return resp
+    return resp  # return final response even if still 429
+
+
 def jira_search(jql, fields, next_page_token=None, max_results=100):
-    """Search issues via new Jira REST API /search/jql endpoint (replaces deprecated /search)."""
+    """Search issues via /rest/api/3/search/jql endpoint with nextPageToken pagination."""
     url = f"{JIRA_BASE_URL}/rest/api/3/search/jql"
     params = {"jql": jql, "fields": ",".join(fields), "maxResults": max_results}
     if next_page_token:
         params["nextPageToken"] = next_page_token
-    resp = requests.get(url, auth=JIRA_AUTH, params=params)
+    resp = jira_get_with_retry(url, params=params)
     if not resp.ok:
         print(f"  Jira search {resp.status_code}: {resp.text[:500]}")
     resp.raise_for_status()
     return resp.json()
 
-def diagnose_jira():
-    """Test Jira API connectivity and print results."""
-    print("\n=== Jira API Diagnostics ===")
-    # Auth test
-    r = requests.get(f"{JIRA_BASE_URL}/rest/api/3/myself", auth=JIRA_AUTH)
-    print(f"Auth (GET /myself): {r.status_code}")
-    if r.ok:
-        u = r.json()
-        print(f"  Logged in as: {u.get('displayName')} / {u.get('emailAddress')}")
-    else:
-        print(f"  Body: {r.text[:300]}")
-    # Search v3
-    r = requests.get(f"{JIRA_BASE_URL}/rest/api/3/search", auth=JIRA_AUTH,
-                     params={"jql": "order by created DESC", "maxResults": 1})
-    print(f"Search v3: {r.status_code} | {r.text[:200] if not r.ok else 'OK'}")
-    # Search v2
-    r = requests.get(f"{JIRA_BASE_URL}/rest/api/2/search", auth=JIRA_AUTH,
-                     params={"jql": "order by created DESC", "maxResults": 1})
-    print(f"Search v2: {r.status_code} | {r.text[:200] if not r.ok else 'OK'}")
-    # Worklog updated API
-    since_ms = int(time.time() * 1000) - 7 * 24 * 3600 * 1000
-    r = requests.get(f"{JIRA_BASE_URL}/rest/api/3/worklog/updated", auth=JIRA_AUTH,
-                     params={"since": since_ms})
-    print(f"Worklog/updated: {r.status_code} | {r.text[:300] if not r.ok else str(len(r.json().get('values',[]))) + ' IDs'}")
-    print("=== End Diagnostics ===\n")
 
 def get_issue_worklogs(issue_key, start_date, end_date):
     result = []
     start_at = 0
     while True:
         url = f"{JIRA_BASE_URL}/rest/api/3/issue/{issue_key}/worklog"
-        resp = requests.get(url, auth=JIRA_AUTH, params={"startAt": start_at, "maxResults": 100})
+        resp = jira_get_with_retry(url, params={"startAt": start_at, "maxResults": 100})
         resp.raise_for_status()
         data = resp.json()
         for wl in data["worklogs"]:
@@ -158,14 +147,14 @@ def get_issue_worklogs(issue_key, start_date, end_date):
         if start_at + 100 >= data["total"]:
             break
         start_at += 100
+        time.sleep(0.3)  # small pause between worklog pages
     return result
 
-# ─── MAIN FETCH ────────────────────────────────────────────────────────────────
+# ─── MAIN FETCH ──────────────────────────────────────────────────────────────────
 
 def fetch_jira_worklogs(start_date, end_date):
     print(f"\nFetching Jira worklogs {start_date} to {end_date}")
     jql = f'worklogDate >= "{start_date}" AND worklogDate <= "{end_date}"'
-
     issues = []
     next_page_token = None
     while True:
@@ -192,12 +181,13 @@ def fetch_jira_worklogs(start_date, end_date):
                 totals[aid]["total_seconds"] += secs
                 if is_billable:
                     totals[aid]["billable_seconds"] += secs
-        if (i + 1) % 20 == 0:
-            time.sleep(0.3)
+        if (i + 1) % 10 == 0:
+            print(f"  Processed {i + 1}/{len(issues)} issues...")
+        time.sleep(0.5)  # pace requests to avoid rate limiting
 
     return dict(totals)
 
-# ─── AIRTABLE FETCH ────────────────────────────────────────────────────────────
+# ─── AIRTABLE FETCH ──────────────────────────────────────────────────────────────
 
 def fetch_capacity_planning():
     print("\nFetching Airtable Capacity Planning...")
@@ -219,17 +209,18 @@ def fetch_capacity_planning():
     for rec in records:
         f = rec.get("fields", {})
         month_raw = f.get("Month", "")
-        members = f.get("Team Member", [])
-        avail = f.get("Available Hours", 0) or 0
+        members   = f.get("Team Member", [])
+        avail     = f.get("Available Hours", 0) or 0
         if month_raw and members:
             name = members[0] if isinstance(members[0], str) else members[0].get("name", "")
             result[f"{name}|{month_raw[:7]}"] = avail
     print(f"  Loaded {len(result)} entries.")
     return result
 
-# ─── METRICS ───────────────────────────────────────────────────────────────────
+# ─── METRICS ─────────────────────────────────────────────────────────────────────
 
-def secs_to_h(s): return round(s / 3600, 2)
+def secs_to_h(s):
+    return round(s / 3600, 2)
 
 def billability(bill, total):
     return round(bill / total, 4) if total > 0 else None
@@ -239,14 +230,16 @@ def build_period_metrics(worklogs, capacity, start, end, label):
     d = start.replace(day=1)
     while d <= end:
         months.add(d.strftime("%Y-%m"))
-        d = (d.replace(month=d.month % 12 + 1, day=1) if d.month < 12 else d.replace(year=d.year + 1, month=1, day=1))
+        d = (d.replace(month=d.month % 12 + 1, day=1) if d.month < 12
+             else d.replace(year=d.year + 1, month=1, day=1))
 
     def prorate(month_str):
         y, m = int(month_str[:4]), int(month_str[5:7])
         ms = date(y, m, 1)
         me = (date(y, m % 12 + 1, 1) - timedelta(days=1)) if m < 12 else date(y, 12, 31)
         ov_s, ov_e = max(start, ms), min(end, me)
-        if ov_s > ov_e: return 0.0
+        if ov_s > ov_e:
+            return 0.0
         wd_t = working_days(ms, me)
         return working_days(ov_s, ov_e) / wd_t if wd_t > 0 else 0.0
 
@@ -256,40 +249,56 @@ def build_period_metrics(worklogs, capacity, start, end, label):
     for m in TEAM_MEMBERS:
         aid = m["accountId"]
         wl = worklogs.get(aid, {"total_seconds": 0, "billable_seconds": 0})
-        total_h = secs_to_h(wl["total_seconds"])
-        bill_h = secs_to_h(wl["billable_seconds"])
-        planned_h = round(sum((capacity.get(f"{m['name']}|{mo}", 0) or 0) * prorate(mo) for mo in months), 2)
+        total_h   = secs_to_h(wl["total_seconds"])
+        bill_h    = secs_to_h(wl["billable_seconds"])
+        planned_h = round(sum(
+            (capacity.get(f"{m['name']}|{mo}", 0) or 0) * prorate(mo)
+            for mo in months
+        ), 2)
         gap = round(bill_h - planned_h, 2) if planned_h > 0 else None
         display = DISPLAY_NAMES.get(m["name"], m["name"])
         members_out.append({
-            "name": display, "team": m["team"], "target": m["target"],
-            "total_h": total_h, "billable_h": bill_h, "planned_h": planned_h,
-            "gap_h": gap, "billability": billability(bill_h, total_h) if m["target"] > 0 else None,
+            "name":        display,
+            "team":        m["team"],
+            "target":      m["target"],
+            "total_h":     total_h,
+            "billable_h":  bill_h,
+            "planned_h":   planned_h,
+            "gap_h":       gap,
+            "billability": billability(bill_h, total_h) if m["target"] > 0 else None,
         })
         t = team_totals[m["team"]]
         t["total_h"] += total_h; t["billable_h"] += bill_h; t["planned_h"] += planned_h
 
     teams_out = {
-        tn: {"total_h": round(t["total_h"], 2), "billable_h": round(t["billable_h"], 2),
-             "planned_h": round(t["planned_h"], 2),
-             "gap_h": round(t["billable_h"] - t["planned_h"], 2) if t["planned_h"] > 0 else None,
-             "billability": billability(t["billable_h"], t["total_h"])}
+        tn: {
+            "total_h":    round(t["total_h"], 2),
+            "billable_h": round(t["billable_h"], 2),
+            "planned_h":  round(t["planned_h"], 2),
+            "gap_h":      round(t["billable_h"] - t["planned_h"], 2) if t["planned_h"] > 0 else None,
+            "billability": billability(t["billable_h"], t["total_h"])
+        }
         for tn, t in team_totals.items()
     }
 
-    total_h_all = sum(m["total_h"] for m in members_out)
-    bill_h_all = sum(m["billable_h"] for m in members_out)
-    planned_h_all = sum(m["planned_h"] for m in members_out)
+    total_h_all   = sum(m["total_h"]   for m in members_out)
+    bill_h_all    = sum(m["billable_h"] for m in members_out)
+    planned_h_all = sum(m["planned_h"]  for m in members_out)
+
     return {
-        "label": label, "start": start.isoformat(), "end": end.isoformat(),
-        "total_h": round(total_h_all, 2), "billable_h": round(bill_h_all, 2),
-        "planned_h": round(planned_h_all, 2),
-        "gap_h": round(bill_h_all - planned_h_all, 2) if planned_h_all > 0 else None,
+        "label":      label,
+        "start":      start.isoformat(),
+        "end":        end.isoformat(),
+        "total_h":    round(total_h_all, 2),
+        "billable_h": round(bill_h_all, 2),
+        "planned_h":  round(planned_h_all, 2),
+        "gap_h":      round(bill_h_all - planned_h_all, 2) if planned_h_all > 0 else None,
         "billability": billability(bill_h_all, total_h_all),
-        "members": members_out, "teams": teams_out,
+        "members":    members_out,
+        "teams":      teams_out,
     }
 
-# ─── ENTRY POINT ───────────────────────────────────────────────────────────────
+# ─── ENTRY POINT ─────────────────────────────────────────────────────────────────
 
 def main():
     today = date.today()
@@ -306,27 +315,31 @@ def main():
     print("\n--- YTD ---")
     wl_y = fetch_jira_worklogs(ys.isoformat(), ye.isoformat())
 
-    week_data = build_period_metrics(wl_w, capacity, ws, we, "week")
+    week_data  = build_period_metrics(wl_w, capacity, ws, we, "week")
     month_data = build_period_metrics(wl_m, capacity, ms, me, "month")
-    ytd_data = build_period_metrics(wl_y, capacity, ys, ye, "ytd")
+    ytd_data   = build_period_metrics(wl_y, capacity, ys, ye, "ytd")
+
     week_data["team_weekly_target"] = WEEKLY_BILLABLE_TARGET
 
     output = {
-        "lastUpdated": datetime.utcnow().isoformat() + "Z",
-        "generatedDate": today.isoformat(),
+        "lastUpdated":          datetime.utcnow().isoformat() + "Z",
+        "generatedDate":        today.isoformat(),
         "weeklyBillableTarget": WEEKLY_BILLABLE_TARGET,
-        "billabilityTarget": BILLABILITY_TARGET,
-        "week": week_data, "month": month_data, "ytd": ytd_data,
+        "billabilityTarget":    BILLABILITY_TARGET,
+        "week":  week_data,
+        "month": month_data,
+        "ytd":   ytd_data,
     }
 
     out_path = os.path.join(os.path.dirname(__file__), "..", "data.json")
     with open(out_path, "w", encoding="utf-8") as f:
         json.dump(output, f, ensure_ascii=False, indent=2)
+
     print(f"\nDone! data.json written.")
     print(f"  Week billable:  {week_data['billable_h']}h")
     print(f"  Month billable: {month_data['billable_h']}h")
     print(f"  YTD billable:   {ytd_data['billable_h']}h")
 
+
 if __name__ == "__main__":
-    diagnose_jira()
     main()
