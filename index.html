@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SGA Billing Scorecard</title>
+<style>
+/* ── SGA Brand Tokens ───────────────────────────────────── */
+:root {
+  --green:        #75FB9F;
+  --green-dark:   #67DD8C;
+  --green-deeper: #4CAF6E;
+  --green-pale:   #E5F9ED;
+  --dark:         #191B19;
+  --dark-alt:     #252725;
+  --dark-card:    #1E201E;
+  --border:       #2E322E;
+  --text:         #F0F4F0;
+  --text-muted:   #8A9A8D;
+  --warning:      #FFC832;
+  --warning-pale: #3D3010;
+  --danger:       #F25757;
+  --danger-pale:  #3D1010;
+  --success:      #75FB9F;
+  --success-pale: #0D2E1A;
+  --radius:       10px;
+  --radius-sm:    6px;
+  --shadow:       0 2px 12px rgba(0,0,0,.4);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  background: var(--dark);
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* ── Layout ─────────────────────────────────────────────── */
+.page { max-width: 1200px; margin: 0 auto; padding: 24px 20px 60px; }
+
+/* ── Header ─────────────────────────────────────────────── */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-dot {
+  width: 28px; height: 28px; border-radius: 8px;
+  background: var(--green); flex-shrink: 0;
+}
+.logo-text { font-size: 20px; font-weight: 700; color: var(--text); letter-spacing: -.3px; }
+.logo-text span { color: var(--green); }
+.last-updated { font-size: 12px; color: var(--text-muted); text-align: right; }
+.last-updated strong { color: var(--text); display: block; font-size: 13px; }
+
+/* ── Period Tabs ─────────────────────────────────────────── */
+.tabs {
+  display: flex; gap: 6px;
+  background: var(--dark-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 5px;
+  margin-bottom: 24px;
+  width: fit-content;
+}
+.tab {
+  padding: 7px 20px;
+  border-radius: var(--radius-sm);
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .18s;
+}
+.tab:hover { color: var(--text); background: var(--dark-alt); }
+.tab.active {
+  background: var(--green);
+  color: var(--dark);
+  font-weight: 700;
+}
+
+/* ── KPI Cards ───────────────────────────────────────────── */
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+@media (max-width: 800px) { .kpi-row { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 480px) { .kpi-row { grid-template-columns: 1fr; } }
+
+.kpi-card {
+  background: var(--dark-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  position: relative;
+  overflow: hidden;
+}
+.kpi-card::before {
+  content: "";
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--green);
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+.kpi-card.warn::before { background: var(--warning); }
+.kpi-card.danger::before { background: var(--danger); }
+
+.kpi-label { font-size: 11px; text-transform: uppercase; letter-spacing: .8px; color: var(--text-muted); margin-bottom: 8px; }
+.kpi-value { font-size: 32px; font-weight: 800; letter-spacing: -1px; color: var(--text); line-height: 1; }
+.kpi-value .unit { font-size: 16px; font-weight: 500; color: var(--text-muted); margin-left: 2px; }
+.kpi-sub { font-size: 12px; color: var(--text-muted); margin-top: 6px; }
+.kpi-sub .pos { color: var(--green); font-weight: 600; }
+.kpi-sub .neg { color: var(--danger); font-weight: 600; }
+.kpi-sub .warn { color: var(--warning); font-weight: 600; }
+
+/* ── Progress Bar ────────────────────────────────────────── */
+.progress-wrap { margin-top: 10px; }
+.progress-bar-bg {
+  background: var(--dark-alt);
+  border-radius: 99px;
+  height: 6px;
+  overflow: hidden;
+  position: relative;
+}
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: var(--green);
+  transition: width .5s ease;
+}
+.progress-bar-fill.warn  { background: var(--warning); }
+.progress-bar-fill.danger { background: var(--danger); }
+.progress-target {
+  position: absolute; top: -4px; bottom: -4px;
+  width: 2px; background: var(--text-muted);
+  border-radius: 99px;
+}
+
+/* ── Section Header ──────────────────────────────────────── */
+.section-header {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 14px; margin-top: 32px;
+}
+.section-title { font-size: 15px; font-weight: 700; color: var(--text); }
+.section-badge {
+  font-size: 11px; font-weight: 600;
+  padding: 2px 8px; border-radius: 99px;
+  background: var(--dark-alt); color: var(--text-muted);
+}
+
+/* ── Team Cards ──────────────────────────────────────────── */
+.teams-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.team-card {
+  background: var(--dark-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+.team-name { font-weight: 700; font-size: 13px; margin-bottom: 10px; }
+.team-metric { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.team-metric-label { font-size: 12px; color: var(--text-muted); }
+.team-metric-value { font-size: 13px; font-weight: 600; color: var(--text); }
+.bill-pct {
+  font-size: 20px; font-weight: 800; margin-bottom: 10px;
+  letter-spacing: -.5px;
+}
+.bill-pct.good   { color: var(--green); }
+.bill-pct.warn   { color: var(--warning); }
+.bill-pct.danger { color: var(--danger); }
+.bill-pct.na     { color: var(--text-muted); font-size: 14px; font-weight: 500; }
+
+/* ── Members Table ───────────────────────────────────────── */
+.table-wrap {
+  background: var(--dark-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+table { width: 100%; border-collapse: collapse; }
+thead tr { background: var(--dark-alt); }
+th {
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: var(--text-muted);
+  font-weight: 600;
+  white-space: nowrap;
+}
+th.r, td.r { text-align: right; }
+td {
+  padding: 11px 14px;
+  font-size: 13px;
+  border-top: 1px solid var(--border);
+  vertical-align: middle;
+}
+tbody tr:hover { background: rgba(255,255,255,.03); }
+
+.name-cell strong { display: block; font-weight: 600; color: var(--text); }
+.name-cell span { font-size: 11px; color: var(--text-muted); }
+
+.pill {
+  display: inline-block;
+  padding: 2px 9px; border-radius: 99px;
+  font-size: 11px; font-weight: 700;
+  white-space: nowrap;
+}
+.pill.good   { background: var(--success-pale); color: var(--green); border: 1px solid rgba(117,251,159,.2); }
+.pill.warn   { background: var(--warning-pale); color: var(--warning); border: 1px solid rgba(255,200,50,.2); }
+.pill.danger { background: var(--danger-pale);  color: var(--danger);  border: 1px solid rgba(242,87,87,.2); }
+.pill.na     { background: var(--dark-alt);     color: var(--text-muted); border: 1px solid var(--border); }
+
+.gap-pos { color: var(--green);   font-weight: 600; }
+.gap-neg { color: var(--danger);  font-weight: 600; }
+.gap-na  { color: var(--text-muted); }
+
+/* Mini progress inside table */
+.mini-bar { width: 80px; height: 5px; background: var(--dark-alt); border-radius: 99px; overflow: hidden; display: inline-block; vertical-align: middle; margin-right: 6px; }
+.mini-fill { height: 100%; border-radius: 99px; background: var(--green); }
+.mini-fill.warn   { background: var(--warning); }
+.mini-fill.danger { background: var(--danger); }
+
+/* ── Empty / Loading State ───────────────────────────────── */
+.state-loading {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text-muted);
+}
+.spinner {
+  width: 32px; height: 32px;
+  border: 3px solid var(--border);
+  border-top-color: var(--green);
+  border-radius: 50%;
+  animation: spin .8s linear infinite;
+  margin: 0 auto 16px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.error-box {
+  background: var(--danger-pale);
+  border: 1px solid rgba(242,87,87,.3);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+  color: var(--danger);
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <div class="logo-dot"></div>
+      <div class="logo-text">Sounds<span>Good</span> — Billing Scorecard</div>
+    </div>
+    <div class="last-updated">
+      <strong id="last-updated-time">Loading…</strong>
+      Auto-refreshes every 30 min
+    </div>
+  </header>
+
+  <!-- Period Tabs -->
+  <div class="tabs" role="tablist">
+    <button class="tab active" data-period="week"  onclick="setPeriod('week')">This Week</button>
+    <button class="tab"        data-period="month" onclick="setPeriod('month')">This Month</button>
+    <button class="tab"        data-period="ytd"   onclick="setPeriod('ytd')">Year to Date</button>
+  </div>
+
+  <!-- Main content injected here -->
+  <div id="app">
+    <div class="state-loading">
+      <div class="spinner"></div>
+      Loading billing data…
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────────
+let DATA     = null;
+let PERIOD   = "week";
+
+// ── Helpers ────────────────────────────────────────────────────────────────────
+const fmt   = n => n == null ? "—" : n.toFixed(1);
+const fmtH  = n => n == null ? "—" : `${n.toFixed(1)}h`;
+const fmtPct = n => n == null ? "—" : `${Math.round(n * 100)}%`;
+const clamp  = (v, lo, hi) => Math.min(hi, Math.max(lo, v));
+
+function billClass(pct, target) {
+  if (pct == null) return "na";
+  const t = target || 0.80;
+  if (pct >= t)          return "good";
+  if (pct >= t - 0.10)   return "warn";
+  return "danger";
+}
+function barClass(pct, target) {
+  return billClass(pct, target);
+}
+
+function relativeDate(isoStr) {
+  try {
+    const d   = new Date(isoStr);
+    const now = new Date();
+    const diffMs = now - d;
+    const mins   = Math.floor(diffMs / 60000);
+    if (mins < 1)   return "just now";
+    if (mins < 60)  return `${mins}m ago`;
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24)   return `${hrs}h ago`;
+    return d.toLocaleDateString("en-GB", { day: "numeric", month: "short" });
+  } catch { return isoStr; }
+}
+
+function periodLabel(p) {
+  if (!DATA) return "";
+  const d = DATA[p];
+  if (!d) return "";
+  if (p === "week") {
+    const s = new Date(d.start), e = new Date(d.end);
+    return `${s.toLocaleDateString("en-GB",{day:"numeric",month:"short"})} – ${e.toLocaleDateString("en-GB",{day:"numeric",month:"short"})}`;
+  }
+  if (p === "month") {
+    return new Date(d.start).toLocaleDateString("en-GB",{month:"long", year:"numeric"});
+  }
+  return `1 Jan – ${new Date(d.end).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})}`;
+}
+
+// ── KPI Cards ──────────────────────────────────────────────────────────────────
+function renderKPI(d) {
+  const target  = DATA.weeklyBillableTarget;
+  const billPct = d.billability;
+  const bc      = billClass(billPct, DATA.billabilityTarget);
+  const barW    = d.billable_h > 0 && target > 0 && PERIOD === "week"
+                    ? clamp(d.billable_h / target * 100, 0, 100) : null;
+
+  // For month/ytd use planned hours as target baseline
+  const planTarget = d.planned_h > 0 ? d.planned_h : null;
+  const planBarW   = planTarget ? clamp(d.billable_h / planTarget * 100, 0, 100) : null;
+  const planPct    = planTarget ? d.billable_h / planTarget : null;
+  const planClass  = planPct == null ? "na" : planPct >= 1 ? "good" : planPct >= 0.85 ? "warn" : "danger";
+
+  const gapH = d.gap_h;
+  const gapClass = gapH == null ? "na" : gapH >= 0 ? "good" : (gapH >= -10 ? "warn" : "danger");
+
+  return `
+  <div class="kpi-row">
+
+    <div class="kpi-card">
+      <div class="kpi-label">Total Logged Hours</div>
+      <div class="kpi-value">${fmt(d.total_h)}<span class="unit">h</span></div>
+      <div class="kpi-sub">${periodLabel(PERIOD)}</div>
+    </div>
+
+    <div class="kpi-card ${billClass(d.billable_h / Math.max(PERIOD==='week'?target:d.planned_h||1,1), 1)}">
+      <div class="kpi-label">Billable Hours</div>
+      <div class="kpi-value">${fmt(d.billable_h)}<span class="unit">h</span></div>
+      <div class="kpi-sub">
+        ${PERIOD === "week"
+          ? `of <strong>${target}h</strong> weekly target`
+          : planTarget ? `of <strong>${fmt(planTarget)}h</strong> planned` : "no plan set"}
+      </div>
+      ${PERIOD === "week" && barW !== null ? `
+        <div class="progress-wrap">
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill ${barW >= 100 ? "good" : barW >= 80 ? "warn" : "danger"}" style="width:${barW}%"></div>
+          </div>
+        </div>` : ""}
+      ${PERIOD !== "week" && planBarW !== null ? `
+        <div class="progress-wrap">
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill ${planClass}" style="width:${clamp(planBarW, 0, 100)}%"></div>
+          </div>
+        </div>` : ""}
+    </div>
+
+    <div class="kpi-card ${bc}">
+      <div class="kpi-label">Team Billability</div>
+      <div class="kpi-value" style="color:${bc==='good'?'var(--green)':bc==='warn'?'var(--warning)':'var(--danger)'}">
+        ${fmtPct(billPct)}
+      </div>
+      <div class="kpi-sub">Target: <strong style="color:var(--text)">${Math.round(DATA.billabilityTarget*100)}%</strong></div>
+      <div class="progress-wrap">
+        <div class="progress-bar-bg" style="position:relative">
+          <div class="progress-bar-fill ${bc}" style="width:${billPct ? clamp(billPct*100, 0, 120) : 0}%"></div>
+          <div class="progress-target" style="left:${DATA.billabilityTarget*100}%"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kpi-card ${gapClass}">
+      <div class="kpi-label">Plan vs Actual Gap</div>
+      <div class="kpi-value" style="color:${gapClass==='good'?'var(--green)':gapClass==='warn'?'var(--warning)':'var(--danger)'}">
+        ${gapH == null ? "—" : (gapH >= 0 ? "+" : "") + fmt(gapH)}<span class="unit">${gapH != null ? "h" : ""}</span>
+      </div>
+      <div class="kpi-sub">
+        ${gapH == null ? "No plan data" : gapH >= 0
+          ? `<span class="pos">Ahead of plan 🎉</span>`
+          : `<span class="neg">${fmt(Math.abs(gapH))}h behind plan</span>`}
+      </div>
+    </div>
+
+  </div>`;
+}
+
+// ── Team Cards ──────────────────────────────────────────────────────────────────
+const TEAM_ORDER = ["Patrik Team","Miro Team","Apps Team","Maintenance","Independent","Management"];
+
+function renderTeams(d) {
+  const teams = d.teams || {};
+  const cards = TEAM_ORDER.filter(t => teams[t]).map(teamName => {
+    const t  = teams[teamName];
+    const bc = billClass(t.billability, DATA.billabilityTarget);
+    return `
+    <div class="team-card">
+      <div class="team-name">${teamName}</div>
+      <div class="bill-pct ${bc}">${fmtPct(t.billability)}</div>
+      <div class="team-metric">
+        <span class="team-metric-label">Billable</span>
+        <span class="team-metric-value">${fmtH(t.billable_h)}</span>
+      </div>
+      <div class="team-metric">
+        <span class="team-metric-label">Total</span>
+        <span class="team-metric-value">${fmtH(t.total_h)}</span>
+      </div>
+      ${t.planned_h > 0 ? `
+      <div class="team-metric">
+        <span class="team-metric-label">Planned</span>
+        <span class="team-metric-value">${fmtH(t.planned_h)}</span>
+      </div>
+      <div class="team-metric">
+        <span class="team-metric-label">Gap</span>
+        <span class="team-metric-value ${t.gap_h >= 0 ? 'gap-pos' : 'gap-neg'}">${t.gap_h >= 0 ? "+" : ""}${fmtH(t.gap_h)}</span>
+      </div>` : ""}
+      <div class="progress-wrap" style="margin-top:10px">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill ${bc}" style="width:${t.billability ? clamp(t.billability*100, 0, 100) : 0}%"></div>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+
+  return `
+  <div class="section-header">
+    <span class="section-title">Sub-team Breakdown</span>
+  </div>
+  <div class="teams-row">${cards}</div>`;
+}
+
+// ── Members Table ──────────────────────────────────────────────────────────────
+function renderTable(d) {
+  const members = (d.members || [])
+    .slice()
+    .sort((a, b) => {
+      // Sort: billable members by billability desc, non-billable at bottom
+      if (a.target === 0 && b.target > 0) return 1;
+      if (a.target > 0 && b.target === 0) return -1;
+      return (b.billability ?? -1) - (a.billability ?? -1);
+    });
+
+  const rows = members.map(m => {
+    const bc   = m.target > 0 ? billClass(m.billability, m.target) : "na";
+    const barW = m.billability ? clamp(m.billability * 100, 0, 100) : 0;
+    const gapH = m.gap_h;
+    const gapClass = gapH == null ? "gap-na" : gapH >= 0 ? "gap-pos" : "gap-neg";
+    const billDisplay = m.target > 0 ? fmtPct(m.billability) : "N/A";
+
+    return `
+    <tr>
+      <td class="name-cell">
+        <strong>${m.name}</strong>
+        <span>${m.team}</span>
+      </td>
+      <td class="r">${fmtH(m.total_h)}</td>
+      <td class="r">${fmtH(m.billable_h)}</td>
+      <td class="r">${m.planned_h > 0 ? fmtH(m.planned_h) : "—"}</td>
+      <td class="r ${gapClass}">${gapH == null ? "—" : (gapH >= 0 ? "+" : "") + fmt(gapH) + "h"}</td>
+      <td class="r">
+        ${m.target > 0 ? `
+          <span class="mini-bar"><span class="mini-fill ${bc}" style="width:${barW}%"></span></span>
+          <span class="pill ${bc}">${billDisplay}</span>` :
+          `<span class="pill na">N/A</span>`}
+      </td>
+      <td class="r" style="color:var(--text-muted);font-size:12px">
+        ${m.target > 0 ? Math.round(m.target * 100) + "%" : "—"}
+      </td>
+    </tr>`;
+  }).join("");
+
+  return `
+  <div class="section-header">
+    <span class="section-title">Individual Breakdown</span>
+    <span class="section-badge">${members.length} people</span>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Team Member</th>
+          <th class="r">Total</th>
+          <th class="r">Billable</th>
+          <th class="r">Planned</th>
+          <th class="r">Gap</th>
+          <th class="r">Billability</th>
+          <th class="r">Target</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>`;
+}
+
+// ── Render ─────────────────────────────────────────────────────────────────────
+function render() {
+  if (!DATA) return;
+  const d   = DATA[PERIOD];
+  const app = document.getElementById("app");
+  if (!d) { app.innerHTML = `<div class="error-box">No data for period "${PERIOD}"</div>`; return; }
+
+  app.innerHTML = renderKPI(d) + renderTeams(d) + renderTable(d);
+
+  document.getElementById("last-updated-time").textContent =
+    relativeDate(DATA.lastUpdated);
+}
+
+function setPeriod(p) {
+  PERIOD = p;
+  document.querySelectorAll(".tab").forEach(t => {
+    t.classList.toggle("active", t.dataset.period === p);
+  });
+  render();
+}
+
+// ── Bootstrap ──────────────────────────────────────────────────────────────────
+async function init() {
+  try {
+    const resp = await fetch("data.json?t=" + Date.now());
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    DATA = await resp.json();
+    render();
+
+    // Refresh display timestamp every minute
+    setInterval(() => {
+      const el = document.getElementById("last-updated-time");
+      if (el && DATA) el.textContent = relativeDate(DATA.lastUpdated);
+    }, 60000);
+
+  } catch (err) {
+    document.getElementById("app").innerHTML = `
+      <div class="error-box">
+        <strong>Could not load billing data</strong><br>
+        ${err.message}<br><br>
+        <small>Make sure data.json exists and the GitHub Action has run at least once.</small>
+      </div>`;
+  }
+}
+
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+{
+  "_note": "This is placeholder data. Run the GitHub Action to populate with real Jira + Airtable data.",
+  "lastUpdated": "2026-03-11T08:00:00Z",
+  "generatedDate": "2026-03-11",
+  "weeklyBillableTarget": 356,
+  "billabilityTarget": 0.80,
+  "week": {
+    "label": "week",
+    "start": "2026-03-09",
+    "end": "2026-03-15",
+    "total_h": 0,
+    "billable_h": 0,
+    "planned_h": 0,
+    "gap_h": null,
+    "billability": null,
+    "team_weekly_target": 356,
+    "members": [
+      {"name":"Adam Ďuriš",       "team":"Patrik Team", "target":0.80,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
+      {"name":"Ahsan Javed",       "team":"Apps Team",   "target":0.60,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
+      {"name":"Dan Dulgerian",     "team":"Miro Team",   "target":0.85,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
+      {"name":"David Gomola",      "team":"Miro Team",   "target":0.85,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
+      {"name":"David Kalla",       "team":"Miro Team",   "target":0.80,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
+      {"name":"David Simões",      "team":"Maintenance", "target":0.0, "total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
+      {"name":"Eva Martincová",    "team":"Management",  "target":0.0, "total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
+      {"name":"František Seifried","team":"Maintenance", "target":0.80,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
+      {"name":"Jakub Schubert",    "team":"Management",  "target":0.0, "total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
+      {"name":"João Antunes",      "team":"Independent", "target":0.75,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
+      {"name":"Marek Časnocha",    "team":"Independent", "target":0.80,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
+      {"name":"Michal Srníček",    "team":"Patrik Team", "target":0.80,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
+      {"name":"Miroslav Straka",   "team":"Miro Team",   "target":0.80,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
+      {"name":"Patrik Bajer",      "team":"Patrik Team", "target":0.80,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
+      {"name":"Roman Filenko",     "team":"Patrik Team", "target":0.80,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null},
+      {"name":"Ronalds Nordmanis", "team":"Independent", "target":0.80,"total_h":0,"billable_h":0,"planned_h":0,"gap_h":null,"billability":null}
+    ],
+    "teams": {}
+  },
+  "month": {
+    "label": "month", "start": "2026-03-01", "end": "2026-03-31",
+    "total_h": 0, "billable_h": 0, "planned_h": 0, "gap_h": null, "billability": null,
+    "members": [], "teams": {}
+  },
+  "ytd": {
+    "label": "ytd", "start": "2026-01-01", "end": "2026-03-11",
+    "total_h": 0, "billable_h": 0, "planned_h": 0, "gap_h": null, "billability": null,
+    "members": [], "teams": {}
+  }
+}
