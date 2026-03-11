@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-11T17:33:15.782764Z",
+  "lastUpdated": "2026-03-11T18:32:53.680443Z",
   "generatedDate": "2026-03-11",
   "weeklyBillableTarget": 356,
   "billabilityTarget": 0.8,
@@ -7,11 +7,11 @@
     "label": "week",
     "start": "2026-03-09",
     "end": "2026-03-15",
-    "total_h": 199.15,
-    "billable_h": 143.97,
+    "total_h": 205.65,
+    "billable_h": 149.97,
     "planned_h": 0.0,
     "gap_h": null,
-    "billability": 0.7229,
+    "billability": 0.7292,
     "members": [
       {
         "name": "Adam Ďuriš",
@@ -87,11 +87,11 @@
         "name": "František Seifried",
         "team": "Maintenance",
         "target": 0.8,
-        "total_h": 18.25,
-        "billable_h": 9.0,
+        "total_h": 24.5,
+        "billable_h": 14.75,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.4932
+        "billability": 0.602
       },
       {
         "name": "Jakub Schubert",
@@ -117,11 +117,11 @@
         "name": "Marek Časnocha",
         "team": "Independent",
         "target": 0.8,
-        "total_h": 16.58,
-        "billable_h": 14.83,
+        "total_h": 16.83,
+        "billable_h": 15.08,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.8945
+        "billability": 0.896
       },
       {
         "name": "Michal Srníček",
@@ -197,11 +197,11 @@
         "billability": 0.7846
       },
       "Maintenance": {
-        "total_h": 18.25,
-        "billable_h": 9.0,
+        "total_h": 24.5,
+        "billable_h": 14.75,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.4932
+        "billability": 0.602
       },
       "Management": {
         "total_h": 0.0,
@@ -211,11 +211,11 @@
         "billability": null
       },
       "Independent": {
-        "total_h": 51.81,
-        "billable_h": 38.91,
+        "total_h": 52.06,
+        "billable_h": 39.16,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.751
+        "billability": 0.7522
       }
     },
     "team_weekly_target": 356
@@ -224,11 +224,11 @@
     "label": "month",
     "start": "2026-03-01",
     "end": "2026-03-31",
-    "total_h": 654.17,
-    "billable_h": 479.25,
+    "total_h": 660.67,
+    "billable_h": 485.25,
     "planned_h": 0.0,
     "gap_h": null,
-    "billability": 0.7326,
+    "billability": 0.7345,
     "members": [
       {
         "name": "Adam Ďuriš",
@@ -304,11 +304,11 @@
         "name": "František Seifried",
         "team": "Maintenance",
         "target": 0.8,
-        "total_h": 63.17,
-        "billable_h": 38.75,
+        "total_h": 69.42,
+        "billable_h": 44.5,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.6134
+        "billability": 0.641
       },
       {
         "name": "Jakub Schubert",
@@ -334,11 +334,11 @@
         "name": "Marek Časnocha",
         "team": "Independent",
         "target": 0.8,
-        "total_h": 44.25,
-        "billable_h": 42.5,
+        "total_h": 44.5,
+        "billable_h": 42.75,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.9605
+        "billability": 0.9607
       },
       {
         "name": "Michal Srníček",
@@ -414,11 +414,11 @@
         "billability": 0.7584
       },
       "Maintenance": {
-        "total_h": 63.17,
-        "billable_h": 38.75,
+        "total_h": 69.42,
+        "billable_h": 44.5,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.6134
+        "billability": 0.641
       },
       "Management": {
         "total_h": 0.0,
@@ -428,11 +428,11 @@
         "billability": null
       },
       "Independent": {
-        "total_h": 133.65,
-        "billable_h": 98.14,
+        "total_h": 133.9,
+        "billable_h": 98.39,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.7343
+        "billability": 0.7348
       }
     }
   },
@@ -440,11 +440,11 @@
     "label": "ytd",
     "start": "2026-01-01",
     "end": "2026-03-11",
-    "total_h": 3970.26,
-    "billable_h": 2811.55,
+    "total_h": 3976.76,
+    "billable_h": 2817.55,
     "planned_h": 0.0,
     "gap_h": null,
-    "billability": 0.7082,
+    "billability": 0.7085,
     "members": [
       {
         "name": "Adam Ďuriš",
@@ -520,11 +520,11 @@
         "name": "František Seifried",
         "team": "Maintenance",
         "target": 0.8,
-        "total_h": 383.25,
-        "billable_h": 226.08,
+        "total_h": 389.5,
+        "billable_h": 231.83,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.5899
+        "billability": 0.5952
       },
       {
         "name": "Jakub Schubert",
@@ -550,8 +550,8 @@
         "name": "Marek Časnocha",
         "team": "Independent",
         "target": 0.8,
-        "total_h": 314.33,
-        "billable_h": 295.08,
+        "total_h": 314.58,
+        "billable_h": 295.33,
         "planned_h": 0.0,
         "gap_h": null,
         "billability": 0.9388
@@ -630,11 +630,11 @@
         "billability": 0.7016
       },
       "Maintenance": {
-        "total_h": 385.95,
-        "billable_h": 228.78,
+        "total_h": 392.2,
+        "billable_h": 234.53,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.5928
+        "billability": 0.598
       },
       "Management": {
         "total_h": 0.0,
@@ -644,8 +644,8 @@
         "billability": null
       },
       "Independent": {
-        "total_h": 794.49,
-        "billable_h": 570.01,
+        "total_h": 794.74,
+        "billable_h": 570.26,
         "planned_h": 0.0,
         "gap_h": null,
         "billability": 0.7175
