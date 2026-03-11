@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-11T20:48:55.747195Z",
+  "lastUpdated": "2026-03-11T21:21:42.380010Z",
   "generatedDate": "2026-03-11",
   "weeklyBillableTarget": 356,
   "billabilityTarget": 0.8,
@@ -7,11 +7,11 @@
     "label": "week",
     "start": "2026-03-09",
     "end": "2026-03-15",
-    "total_h": 210.9,
+    "total_h": 213.63,
     "billable_h": 153.72,
     "planned_h": 0.0,
     "gap_h": null,
-    "billability": 0.7289,
+    "billability": 0.7196,
     "members": [
       {
         "name": "Adam Ďuriš",
@@ -27,11 +27,11 @@
         "name": "Ahsan Javed",
         "team": "Apps Team",
         "target": 0.6,
-        "total_h": 14.45,
+        "total_h": 17.18,
         "billable_h": 3.5,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.2422
+        "billability": 0.2037
       },
       {
         "name": "Dan Dulgerian",
@@ -183,11 +183,11 @@
         "billability": 0.8487
       },
       "Apps Team": {
-        "total_h": 14.45,
+        "total_h": 17.18,
         "billable_h": 3.5,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.2422
+        "billability": 0.2037
       },
       "Miro Team": {
         "total_h": 75.35,
@@ -224,11 +224,11 @@
     "label": "month",
     "start": "2026-03-01",
     "end": "2026-03-31",
-    "total_h": 666.38,
+    "total_h": 669.11,
     "billable_h": 489.46,
     "planned_h": 0.0,
     "gap_h": null,
-    "billability": 0.7345,
+    "billability": 0.7315,
     "members": [
       {
         "name": "Adam Ďuriš",
@@ -244,11 +244,11 @@
         "name": "Ahsan Javed",
         "team": "Apps Team",
         "target": 0.6,
-        "total_h": 56.27,
+        "total_h": 59.0,
         "billable_h": 12.53,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.2227
+        "billability": 0.2124
       },
       {
         "name": "Dan Dulgerian",
@@ -400,11 +400,11 @@
         "billability": 0.8991
       },
       "Apps Team": {
-        "total_h": 56.27,
+        "total_h": 59.0,
         "billable_h": 12.53,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.2227
+        "billability": 0.2124
       },
       "Miro Team": {
         "total_h": 220.6,
@@ -440,11 +440,11 @@
     "label": "ytd",
     "start": "2026-01-01",
     "end": "2026-03-11",
-    "total_h": 3982.48,
+    "total_h": 3985.21,
     "billable_h": 2821.78,
     "planned_h": 0.0,
     "gap_h": null,
-    "billability": 0.7085,
+    "billability": 0.7081,
     "members": [
       {
         "name": "Adam Ďuriš",
@@ -460,11 +460,11 @@
         "name": "Ahsan Javed",
         "team": "Apps Team",
         "target": 0.6,
-        "total_h": 316.12,
+        "total_h": 318.85,
         "billable_h": 114.9,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.3635
+        "billability": 0.3604
       },
       {
         "name": "Dan Dulgerian",
@@ -616,11 +616,11 @@
         "billability": 0.8394
       },
       "Apps Team": {
-        "total_h": 316.12,
+        "total_h": 318.85,
         "billable_h": 114.9,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.3635
+        "billability": 0.3604
       },
       "Miro Team": {
         "total_h": 1297.33,
