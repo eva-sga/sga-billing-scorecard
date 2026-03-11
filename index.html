@@ -360,8 +360,22 @@ function renderKPI(d) {
   const planPct    = planTarget ? d.billable_h / planTarget : null;
   const planClass  = planPct == null ? "na" : planPct >= 1 ? "good" : planPct >= 0.85 ? "warn" : "danger";
 
-  const gapH = d.gap_h;
-  const gapClass = gapH == null ? "na" : gapH >= 0 ? "good" : (gapH >= -10 ? "warn" : "danger");
+  let gapH = d.gap_h;
+  let gapSubLabel = null;
+  if (gapH == null && PERIOD === 'week' && DATA.weeklyBillableTarget) {
+    const weekStart = new Date(d.start + 'T00:00:00');
+    const weekEndDate = new Date(d.end + 'T00:00:00');
+    const today = new Date(); today.setHours(0,0,0,0);
+    let elapsed = 0, total = 0;
+    for (let cur = new Date(weekStart); cur <= weekEndDate; cur.setDate(cur.getDate()+1)) {
+      const dow = cur.getDay();
+      if (dow > 0 && dow < 6) { total++; if (+cur <= +today) elapsed++; }
+    }
+    const expected = total > 0 ? +(DATA.weeklyBillableTarget * elapsed / total).toFixed(1) : DATA.weeklyBillableTarget;
+    gapH = +(d.billable_h - expected).toFixed(1);
+    gapSubLabel = 'pace: ' + expected + 'h expected by today';
+  }
+  const gapClass = gapH == null ? "na" : gapH >= 0 ? "good" : (gapH >= -35 ? "warn" : "danger");
 
   return `
   <div class="kpi-row">
@@ -414,9 +428,11 @@ function renderKPI(d) {
         ${gapH == null ? "—" : (gapH >= 0 ? "+" : "") + fmt(gapH)}<span class="unit">${gapH != null ? "h" : ""}</span>
       </div>
       <div class="kpi-sub">
-        ${gapH == null ? "No plan data" : gapH >= 0
-          ? `<span class="pos">Ahead of plan 🎉</span>`
-          : `<span class="neg">${fmt(Math.abs(gapH))}h behind plan</span>`}
+        ${gapH == null
+              ? "No plan data"
+              : gapH >= 0
+                ? '<span class="pos">Ahead of pace 🎉</span>' + (gapSubLabel ? '<br><small style="color:var(--text-muted);font-size:11px">' + gapSubLabel + '</small>' : '')
+                : '<span class="neg">' + fmt(Math.abs(gapH)) + 'h behind pace</span>' + (gapSubLabel ? '<br><small style="color:var(--text-muted);font-size:11px">' + gapSubLabel + '</small>' : '')}
       </div>
     </div>
 
