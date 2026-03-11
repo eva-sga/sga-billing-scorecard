@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-11T16:34:02.617263Z",
+  "lastUpdated": "2026-03-11T17:33:15.782764Z",
   "generatedDate": "2026-03-11",
   "weeklyBillableTarget": 356,
   "billabilityTarget": 0.8,
@@ -7,11 +7,11 @@
     "label": "week",
     "start": "2026-03-09",
     "end": "2026-03-15",
-    "total_h": 197.76,
-    "billable_h": 143.31,
+    "total_h": 199.15,
+    "billable_h": 143.97,
     "planned_h": 0.0,
     "gap_h": null,
-    "billability": 0.7247,
+    "billability": 0.7229,
     "members": [
       {
         "name": "Adam Ďuriš",
@@ -107,21 +107,21 @@
         "name": "João Antunes",
         "team": "Independent",
         "target": 0.75,
-        "total_h": 22.0,
+        "total_h": 22.4,
         "billable_h": 13.45,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.6114
+        "billability": 0.6004
       },
       {
         "name": "Marek Časnocha",
         "team": "Independent",
         "target": 0.8,
-        "total_h": 16.42,
-        "billable_h": 14.67,
+        "total_h": 16.58,
+        "billable_h": 14.83,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.8934
+        "billability": 0.8945
       },
       {
         "name": "Michal Srníček",
@@ -147,8 +147,8 @@
         "name": "Patrik Bajer",
         "team": "Patrik Team",
         "target": 0.8,
-        "total_h": 19.67,
-        "billable_h": 19.67,
+        "total_h": 20.17,
+        "billable_h": 20.17,
         "planned_h": 0.0,
         "gap_h": null,
         "billability": 1.0
@@ -167,20 +167,20 @@
         "name": "Ronalds Nordmanis",
         "team": "Independent",
         "target": 0.8,
-        "total_h": 12.5,
+        "total_h": 12.83,
         "billable_h": 10.63,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.8504
+        "billability": 0.8285
       }
     ],
     "teams": {
       "Patrik Team": {
-        "total_h": 40.29,
-        "billable_h": 34.12,
+        "total_h": 40.79,
+        "billable_h": 34.62,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.8469
+        "billability": 0.8487
       },
       "Apps Team": {
         "total_h": 14.45,
@@ -211,11 +211,11 @@
         "billability": null
       },
       "Independent": {
-        "total_h": 50.92,
-        "billable_h": 38.75,
+        "total_h": 51.81,
+        "billable_h": 38.91,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.761
+        "billability": 0.751
       }
     },
     "team_weekly_target": 356
@@ -224,11 +224,11 @@
     "label": "month",
     "start": "2026-03-01",
     "end": "2026-03-31",
-    "total_h": 652.77,
-    "billable_h": 478.58,
+    "total_h": 654.17,
+    "billable_h": 479.25,
     "planned_h": 0.0,
     "gap_h": null,
-    "billability": 0.7332,
+    "billability": 0.7326,
     "members": [
       {
         "name": "Adam Ďuriš",
@@ -324,21 +324,21 @@
         "name": "João Antunes",
         "team": "Independent",
         "target": 0.75,
-        "total_h": 53.42,
+        "total_h": 53.82,
         "billable_h": 25.82,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.4833
+        "billability": 0.4797
       },
       {
         "name": "Marek Časnocha",
         "team": "Independent",
         "target": 0.8,
-        "total_h": 44.08,
-        "billable_h": 42.33,
+        "total_h": 44.25,
+        "billable_h": 42.5,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.9603
+        "billability": 0.9605
       },
       {
         "name": "Michal Srníček",
@@ -364,11 +364,11 @@
         "name": "Patrik Bajer",
         "team": "Patrik Team",
         "target": 0.8,
-        "total_h": 59.17,
-        "billable_h": 57.58,
+        "total_h": 59.67,
+        "billable_h": 58.08,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.9731
+        "billability": 0.9734
       },
       {
         "name": "Roman Filenko",
@@ -384,20 +384,20 @@
         "name": "Ronalds Nordmanis",
         "team": "Independent",
         "target": 0.8,
-        "total_h": 35.25,
+        "total_h": 35.58,
         "billable_h": 29.82,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.846
+        "billability": 0.8381
       }
     ],
     "teams": {
       "Patrik Team": {
-        "total_h": 181.78,
-        "billable_h": 163.39,
+        "total_h": 182.28,
+        "billable_h": 163.89,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.8988
+        "billability": 0.8991
       },
       "Apps Team": {
         "total_h": 56.27,
@@ -428,11 +428,11 @@
         "billability": null
       },
       "Independent": {
-        "total_h": 132.75,
-        "billable_h": 97.97,
+        "total_h": 133.65,
+        "billable_h": 98.14,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.738
+        "billability": 0.7343
       }
     }
   },
@@ -440,8 +440,8 @@
     "label": "ytd",
     "start": "2026-01-01",
     "end": "2026-03-11",
-    "total_h": 3968.87,
-    "billable_h": 2810.89,
+    "total_h": 3970.26,
+    "billable_h": 2811.55,
     "planned_h": 0.0,
     "gap_h": null,
     "billability": 0.7082,
@@ -540,21 +540,21 @@
         "name": "João Antunes",
         "team": "Independent",
         "target": 0.75,
-        "total_h": 277.93,
+        "total_h": 278.33,
         "billable_h": 109.9,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.3954
+        "billability": 0.3949
       },
       {
         "name": "Marek Časnocha",
         "team": "Independent",
         "target": 0.8,
-        "total_h": 314.17,
-        "billable_h": 294.92,
+        "total_h": 314.33,
+        "billable_h": 295.08,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.9387
+        "billability": 0.9388
       },
       {
         "name": "Michal Srníček",
@@ -580,11 +580,11 @@
         "name": "Patrik Bajer",
         "team": "Patrik Team",
         "target": 0.8,
-        "total_h": 301.5,
-        "billable_h": 281.92,
+        "total_h": 302.0,
+        "billable_h": 282.42,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.9351
+        "billability": 0.9352
       },
       {
         "name": "Roman Filenko",
@@ -600,20 +600,20 @@
         "name": "Ronalds Nordmanis",
         "team": "Independent",
         "target": 0.8,
-        "total_h": 201.5,
+        "total_h": 201.83,
         "billable_h": 165.03,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.819
+        "billability": 0.8177
       }
     ],
     "teams": {
       "Patrik Team": {
-        "total_h": 1177.67,
-        "billable_h": 988.43,
+        "total_h": 1178.17,
+        "billable_h": 988.93,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.8393
+        "billability": 0.8394
       },
       "Apps Team": {
         "total_h": 316.12,
@@ -644,11 +644,11 @@
         "billability": null
       },
       "Independent": {
-        "total_h": 793.6,
-        "billable_h": 569.85,
+        "total_h": 794.49,
+        "billable_h": 570.01,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.7181
+        "billability": 0.7175
       }
     }
   }
