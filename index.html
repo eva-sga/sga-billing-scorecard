@@ -402,7 +402,7 @@ function renderKPI(d) {
   const totalClass   = totalExpected !== null && d.total_h < totalExpected * 0.9 ? 'warn' : '';
   const totalFill    = totalExpected > 0 ? Math.min(100, +(d.total_h / totalExpected * 100).toFixed(1)) : 0;
   const totalBarHtml = totalExpected !== null
-    ? '<div class="kpi-bar"><div class="kpi-bar-fill ' + (totalClass || 'good') + '" style="width:' + totalFill + '%"></div></div>'
+    ? '<div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill ' + (totalClass || 'good') + '" style="width:' + totalFill + '%"></div></div></div>'
     : '';
 
   return `
@@ -536,7 +536,7 @@ function renderTable(d) {
         <strong>${m.name}</strong>
         <span>${m.team}</span>
       </td>
-      <td class="r">${fmtH(m.total_h)}</td>
+      <td class="r">${personExp > 0 ? '<span class="' + (m.total_h >= personExp ? 'gap-pos' : m.total_h >= personExp*0.9 ? '' : 'gap-neg') + '">' + fmtH(m.total_h) + '</span><small style="display:block;font-size:11px;color:var(--text-muted)">exp. ' + personExp + 'h</small>' : fmtH(m.total_h)}</td>
       <td class="r">${fmtH(m.billable_h)}</td>
       <td class="r">${m.planned_h > 0 ? fmtH(m.planned_h) : "—"}</td>
       <td class="r ${gapClass}">${gapH == null ? "—" : (gapH >= 0 ? "+" : "") + fmt(gapH) + "h"}</td>
@@ -562,7 +562,7 @@ function renderTable(d) {
       <thead>
         <tr>
           <th>Team Member</th>
-          <th class="r">Total</th>
+          <th class="r">Total<small style="display:block;font-weight:400;font-size:10px;color:var(--text-muted)">40h/wk exp.</small></th>
           <th class="r">Billable</th>
           <th class="r">Planned</th>
           <th class="r">Gap</th>
