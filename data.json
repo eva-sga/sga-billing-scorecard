@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-12T09:03:08.946187Z",
+  "lastUpdated": "2026-03-12T09:09:43.833157Z",
   "generatedDate": "2026-03-12",
   "weeklyBillableTarget": 356,
   "billabilityTarget": 0.8,
@@ -442,8 +442,8 @@
     "end": "2026-03-12",
     "total_h": 4006.29,
     "billable_h": 2833.66,
-    "planned_h": 0.0,
-    "gap_h": null,
+    "planned_h": 3230.8,
+    "gap_h": -397.14,
     "billability": 0.7073,
     "members": [
       {
@@ -452,8 +452,8 @@
         "target": 0.8,
         "total_h": 261.5,
         "billable_h": 248.92,
-        "planned_h": 0.0,
-        "gap_h": null,
+        "planned_h": 262.4,
+        "gap_h": -13.48,
         "billability": 0.9519
       },
       {
@@ -462,8 +462,8 @@
         "target": 0.6,
         "total_h": 326.38,
         "billable_h": 115.23,
-        "planned_h": 0.0,
-        "gap_h": null,
+        "planned_h": 196.8,
+        "gap_h": -81.57,
         "billability": 0.3531
       },
       {
@@ -472,8 +472,8 @@
         "target": 0.85,
         "total_h": 303.72,
         "billable_h": 259.67,
-        "planned_h": 0.0,
-        "gap_h": null,
+        "planned_h": 278.8,
+        "gap_h": -19.13,
         "billability": 0.855
       },
       {
@@ -482,8 +482,8 @@
         "target": 0.85,
         "total_h": 273.88,
         "billable_h": 161.6,
-        "planned_h": 0.0,
-        "gap_h": null,
+        "planned_h": 278.8,
+        "gap_h": -117.2,
         "billability": 0.59
       },
       {
@@ -492,8 +492,8 @@
         "target": 0.8,
         "total_h": 391.92,
         "billable_h": 296.28,
-        "planned_h": 0.0,
-        "gap_h": null,
+        "planned_h": 262.4,
+        "gap_h": 33.88,
         "billability": 0.756
       },
       {
@@ -522,8 +522,8 @@
         "target": 0.8,
         "total_h": 390.33,
         "billable_h": 232.67,
-        "planned_h": 0.0,
-        "gap_h": null,
+        "planned_h": 262.4,
+        "gap_h": -29.73,
         "billability": 0.5961
       },
       {
@@ -542,8 +542,8 @@
         "target": 0.75,
         "total_h": 280.08,
         "billable_h": 111.35,
-        "planned_h": 0.0,
-        "gap_h": null,
+        "planned_h": 246.0,
+        "gap_h": -134.65,
         "billability": 0.3976
       },
       {
@@ -552,8 +552,8 @@
         "target": 0.8,
         "total_h": 318.0,
         "billable_h": 298.75,
-        "planned_h": 0.0,
-        "gap_h": null,
+        "planned_h": 262.4,
+        "gap_h": 36.35,
         "billability": 0.9395
       },
       {
@@ -562,8 +562,8 @@
         "target": 0.8,
         "total_h": 260.08,
         "billable_h": 238.33,
-        "planned_h": 0.0,
-        "gap_h": null,
+        "planned_h": 262.4,
+        "gap_h": -24.07,
         "billability": 0.9164
       },
       {
@@ -572,8 +572,8 @@
         "target": 0.8,
         "total_h": 334.95,
         "billable_h": 197.62,
-        "planned_h": 0.0,
-        "gap_h": null,
+        "planned_h": 262.4,
+        "gap_h": -64.78,
         "billability": 0.59
       },
       {
@@ -582,8 +582,8 @@
         "target": 0.8,
         "total_h": 304.0,
         "billable_h": 283.92,
-        "planned_h": 0.0,
-        "gap_h": null,
+        "planned_h": 262.4,
+        "gap_h": 21.52,
         "billability": 0.9339
       },
       {
@@ -592,8 +592,8 @@
         "target": 0.8,
         "total_h": 356.5,
         "billable_h": 221.17,
-        "planned_h": 0.0,
-        "gap_h": null,
+        "planned_h": 262.4,
+        "gap_h": -41.23,
         "billability": 0.6204
       },
       {
@@ -602,8 +602,8 @@
         "target": 0.8,
         "total_h": 202.25,
         "billable_h": 165.45,
-        "planned_h": 0.0,
-        "gap_h": null,
+        "planned_h": 131.2,
+        "gap_h": 34.25,
         "billability": 0.818
       }
     ],
@@ -611,29 +611,29 @@
       "Patrik Team": {
         "total_h": 1182.08,
         "billable_h": 992.34,
-        "planned_h": 0.0,
-        "gap_h": null,
+        "planned_h": 1049.6,
+        "gap_h": -57.26,
         "billability": 0.8395
       },
       "Apps Team": {
         "total_h": 326.38,
         "billable_h": 115.23,
-        "planned_h": 0.0,
-        "gap_h": null,
+        "planned_h": 196.8,
+        "gap_h": -81.57,
         "billability": 0.3531
       },
       "Miro Team": {
         "total_h": 1304.47,
         "billable_h": 915.17,
-        "planned_h": 0.0,
-        "gap_h": null,
+        "planned_h": 1082.4,
+        "gap_h": -167.23,
         "billability": 0.7016
       },
       "Maintenance": {
         "total_h": 393.03,
         "billable_h": 235.37,
-        "planned_h": 0.0,
-        "gap_h": null,
+        "planned_h": 262.4,
+        "gap_h": -27.03,
         "billability": 0.5989
       },
       "Management": {
@@ -646,8 +646,8 @@
       "Independent": {
         "total_h": 800.33,
         "billable_h": 575.55,
-        "planned_h": 0.0,
-        "gap_h": null,
+        "planned_h": 639.6,
+        "gap_h": -64.05,
         "billability": 0.7191
       }
     }
