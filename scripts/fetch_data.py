@@ -196,8 +196,31 @@ def compute_totals(all_worklogs, start_date, end_date):
 
 
 # ─── AIRTABLE ────────────────────────────────────────────────────────────────────────────────────
+def fetch_team_member_id_to_name():
+    """Fetch SGA HR records to map Airtable record IDs → ASCII team member names."""
+    SGA_HR_TABLE = "tblchgi6MPpCPRmsK"
+    headers = {"Authorization": f"Bearer {AIRTABLE_TOKEN}"}
+    url = f"https://api.airtable.com/v0/{AIRTABLE_BASE}/{SGA_HR_TABLE}"
+    id_to_name, offset = {}, None
+    while True:
+        params = {"fields[]": ["Name"], "pageSize": 100}
+        if offset:
+            params["offset"] = offset
+        resp = requests.get(url, headers=headers, params=params)
+        resp.raise_for_status()
+        data = resp.json()
+        for rec in data["records"]:
+            name = rec["fields"].get("Name", "")
+            if name:
+                id_to_name[rec["id"]] = name
+        offset = data.get("offset")
+        if not offset:
+            break
+    return id_to_name
+
 def fetch_capacity_planning():
     print("\nFetching Airtable Capacity Planning...")
+    id_to_name = fetch_team_member_id_to_name()
     headers = {"Authorization": f"Bearer {AIRTABLE_TOKEN}"}
     url     = f"https://api.airtable.com/v0/{AIRTABLE_BASE}/{AIRTABLE_TABLE}"
     records, offset = [], None
@@ -219,7 +242,8 @@ def fetch_capacity_planning():
         members   = f.get("Team Member", [])
         avail     = f.get("Available Hours", 0) or 0
         if month_raw and members:
-            name = members[0] if isinstance(members[0], str) else members[0].get("name", "")
+            rec_id = members[0] if isinstance(members[0], str) else members[0].get("id", "")
+            name = id_to_name.get(rec_id, rec_id)
             result[f"{name}|{month_raw[:7]}"] = avail
     print(f"  Loaded {len(result)} entries.")
     return result
@@ -257,9 +281,8 @@ def build_period_metrics(worklogs, capacity, start, end, label):
         wl        = worklogs.get(aid, {"total_seconds": 0, "billable_seconds": 0})
         total_h   = secs_to_h(wl["total_seconds"])
         bill_h    = secs_to_h(wl["billable_seconds"])
-        cap_name = DISPLAY_NAMES.get(m["name"], m["name"])
         planned_h = round(sum(
-            (capacity.get(f"{cap_name}|{mo}", 0) or 0) * prorate(mo)
+            (capacity.get(f"{m['name']}|{mo}", 0) or 0) * prorate(mo)
             for mo in months
         ), 2)
         gap     = round(bill_h - planned_h, 2) if planned_h > 0 else None
