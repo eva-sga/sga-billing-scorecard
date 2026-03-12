@@ -594,6 +594,7 @@ function render() {
     if (PERIOD === 'history') { app.innerHTML = renderHistory(); return; }
     const d = DATA[PERIOD];
     if (!d) { app.innerHTML = `<div class="error-box">No data for period "${PERIOD}"</div>`; return; }
+  try {
     app.innerHTML = renderKPI(d) + renderTeams(d) + renderTable(d);
   } catch { return isoStr; }
 }
