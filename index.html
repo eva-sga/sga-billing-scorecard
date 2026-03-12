@@ -537,6 +537,8 @@ function renderTable(d) {
     const gapClass = gapH == null ? "gap-na" : gapH >= 0 ? "gap-pos" : "gap-neg";
     const billDisplay = m.target > 0 ? fmtPct(m.billability) : "N/A";
 
+    const effGapH = m.planned_h > 0 ? gapH : (personExp > 0 ? +(m.total_h - personExp).toFixed(1) : null);
+    const effGapClass = effGapH == null ? 'gap-na' : effGapH >= 0 ? 'gap-pos' : 'gap-neg';
     return `
     <tr>
       <td class="name-cell">
@@ -545,8 +547,8 @@ function renderTable(d) {
       </td>
       <td class="r">${personExp > 0 ? '<span class="' + (m.total_h >= personExp ? 'gap-pos' : m.total_h >= personExp*0.9 ? '' : 'gap-neg') + '">' + fmtH(m.total_h) + '</span><small style="display:block;font-size:11px;color:var(--text-muted)">exp. ' + personExp + 'h</small>' : fmtH(m.total_h)}</td>
       <td class="r">${fmtH(m.billable_h)}</td>
-      <td class="r">${m.planned_h > 0 ? fmtH(m.planned_h) : "—"}</td>
-      <td class="r ${gapClass}">${gapH == null ? "—" : (gapH >= 0 ? "+" : "") + fmt(gapH) + "h"}</td>
+      <td class="r">${m.planned_h > 0 ? fmtH(m.planned_h) : personExp > 0 ? fmtH(personExp) : "—"}</td>
+      <td class="r ${effGapClass}">${effGapH == null ? "—" : (effGapH >= 0 ? "+" : "") + fmt(effGapH) + "h"}</td>
       <td class="r">
         ${m.target > 0 ? `
           <span class="mini-bar"><span class="mini-fill ${bc}" style="width:${barW}%"></span></span>
