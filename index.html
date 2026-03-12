@@ -930,20 +930,13 @@ function setHistoryMode(m) {
   }).join('');
 
   const btVals   = periods.map(p => fmtH(p.billable_h));
-  const planVals = periods.map(p => fmtH(p.planned_billable_h || p.planned_h));
-  const gapVals  = periods.map(p => {
-    const plan = p.planned_billable_h || p.planned_h;
-    return fmtGap(plan != null ? p.billable_h - plan : null);
-  });
-  const gapCls = p => {
-    const plan = p.planned_billable_h || p.planned_h;
-    const gap  = plan != null ? p.billable_h - plan : null;
-    return gap == null ? '' : gap >= 0 ? 'gap-pos' : 'gap-neg';
-  };
+  const planVals = periods.map(p => fmtH(p.planned_h > 0 ? p.planned_h : p.planned_billable_h));
+  const gapVals  = periods.map(p => fmtGap(p.gap_h));
+  const gapCls   = p => p.gap_h == null ? '' : p.gap_h >= 0 ? 'gap-pos' : 'gap-neg';
 
   const btTotal   = periods.reduce((s, p) => s + (p.billable_h || 0), 0);
-  const planTotal = periods.reduce((s, p) => s + (p.planned_billable_h || p.planned_h || 0), 0);
-  const gapTotal  = btTotal - planTotal;
+  const planTotal = periods.reduce((s, p) => s + (p.planned_h > 0 ? p.planned_h : (p.planned_billable_h || 0)), 0);
+  const gapTotal  = periods.reduce((s, p) => s + (p.gap_h || 0), 0);
 
   const target = (DATA.weeklyBillableTarget || 356);
   return `
