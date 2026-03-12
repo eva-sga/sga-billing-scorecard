@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-12T06:37:01.999863Z",
+  "lastUpdated": "2026-03-12T07:35:50.763859Z",
   "generatedDate": "2026-03-12",
   "weeklyBillableTarget": 356,
   "billabilityTarget": 0.8,
@@ -7,11 +7,11 @@
     "label": "week",
     "start": "2026-03-09",
     "end": "2026-03-15",
-    "total_h": 221.78,
-    "billable_h": 154.22,
+    "total_h": 222.87,
+    "billable_h": 155.3,
     "planned_h": 0.0,
     "gap_h": null,
-    "billability": 0.6954,
+    "billability": 0.6968,
     "members": [
       {
         "name": "Adam Ďuriš",
@@ -37,11 +37,11 @@
         "name": "Dan Dulgerian",
         "team": "Miro Team",
         "target": 0.85,
-        "total_h": 19.08,
-        "billable_h": 15.27,
+        "total_h": 20.17,
+        "billable_h": 16.35,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.8003
+        "billability": 0.8106
       },
       {
         "name": "David Gomola",
@@ -190,11 +190,11 @@
         "billability": 0.1436
       },
       "Miro Team": {
-        "total_h": 75.8,
-        "billable_h": 57.94,
+        "total_h": 76.89,
+        "billable_h": 59.02,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.7644
+        "billability": 0.7676
       },
       "Maintenance": {
         "total_h": 25.33,
@@ -224,11 +224,11 @@
     "label": "month",
     "start": "2026-03-01",
     "end": "2026-03-31",
-    "total_h": 677.26,
-    "billable_h": 489.96,
+    "total_h": 678.34,
+    "billable_h": 491.05,
     "planned_h": 0.0,
     "gap_h": null,
-    "billability": 0.7234,
+    "billability": 0.7239,
     "members": [
       {
         "name": "Adam Ďuriš",
@@ -254,11 +254,11 @@
         "name": "Dan Dulgerian",
         "team": "Miro Team",
         "target": 0.85,
-        "total_h": 52.25,
-        "billable_h": 41.58,
+        "total_h": 53.33,
+        "billable_h": 42.67,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.7958
+        "billability": 0.8001
       },
       {
         "name": "David Gomola",
@@ -407,11 +407,11 @@
         "billability": 0.1893
       },
       "Miro Team": {
-        "total_h": 221.05,
-        "billable_h": 166.24,
+        "total_h": 222.13,
+        "billable_h": 167.33,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.752
+        "billability": 0.7533
       },
       "Maintenance": {
         "total_h": 70.25,
@@ -440,11 +440,11 @@
     "label": "ytd",
     "start": "2026-01-01",
     "end": "2026-03-12",
-    "total_h": 3993.36,
-    "billable_h": 2822.28,
+    "total_h": 3994.45,
+    "billable_h": 2823.37,
     "planned_h": 0.0,
     "gap_h": null,
-    "billability": 0.7067,
+    "billability": 0.7068,
     "members": [
       {
         "name": "Adam Ďuriš",
@@ -470,11 +470,11 @@
         "name": "Dan Dulgerian",
         "team": "Miro Team",
         "target": 0.85,
-        "total_h": 301.53,
-        "billable_h": 257.48,
+        "total_h": 302.62,
+        "billable_h": 258.57,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.8539
+        "billability": 0.8544
       },
       {
         "name": "David Gomola",
@@ -623,11 +623,11 @@
         "billability": 0.3524
       },
       "Miro Team": {
-        "total_h": 1297.78,
-        "billable_h": 909.23,
+        "total_h": 1298.87,
+        "billable_h": 910.32,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.7006
+        "billability": 0.7009
       },
       "Maintenance": {
         "total_h": 393.03,
