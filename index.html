@@ -275,6 +275,8 @@ tbody tr:hover { background: rgba(255,255,255,.03); }
 .cur-col { background:rgba(117,251,159,.04); }
 .gap-pos { color:var(--green); }
 .gap-neg { color:var(--danger); }
+.hist-total { border-left:2px solid var(--border) !important; color:var(--text) !important; }
+.hist-total-cell { border-left:2px solid var(--border); font-weight:700; }
 </style>
 </head>
 <body>
@@ -907,7 +909,10 @@ function setHistoryMode(m) {
   function renderHistory() {
   const hist = DATA.history;
   if (!hist) return '<p style="padding:20px;color:var(--text-muted)">No history data available.</p>';
-  const periods = HISTORY_MODE === 'monthly' ? hist.months : hist.weeks;
+  const curYear = new Date().getFullYear();
+  const periods = HISTORY_MODE === 'monthly'
+    ? hist.months
+    : hist.weeks.filter(p => new Date(p.start).getFullYear() === curYear);
   if (!periods || !periods.length) return '<p style="padding:20px;color:var(--text-muted)">No data available.</p>';
 
   const now = new Date();
@@ -936,6 +941,10 @@ function setHistoryMode(m) {
     return gap == null ? '' : gap >= 0 ? 'gap-pos' : 'gap-neg';
   };
 
+  const btTotal   = periods.reduce((s, p) => s + (p.billable_h || 0), 0);
+  const planTotal = periods.reduce((s, p) => s + (p.planned_billable_h || p.planned_h || 0), 0);
+  const gapTotal  = btTotal - planTotal;
+
   const target = (DATA.weeklyBillableTarget || 356);
   return `
     <div class="history-controls">
@@ -947,12 +956,12 @@ function setHistoryMode(m) {
       <table class="history-table">
         <thead><tr>
           <th class="hist-label-col"></th>
-          ${headers}
+          ${headers}<th class="hist-period hist-total">TOTAL</th>
         </tr></thead>
         <tbody>
-          <tr><td class="hist-row-label">Billable (BT)</td>${makeCells(btVals)}</tr>
-          <tr><td class="hist-row-label">Planned</td>${makeCells(planVals)}</tr>
-          <tr class="hist-gap-row"><td class="hist-row-label">Gap</td>${makeCells(gapVals, gapCls)}</tr>
+          <tr><td class="hist-row-label">Billable (BT)</td>${makeCells(btVals)}<td class="hist-total-cell">${fmtH(btTotal)}</td></tr>
+          <tr><td class="hist-row-label">Planned</td>${makeCells(planVals)}<td class="hist-total-cell">${fmtH(planTotal)}</td></tr>
+          <tr class="hist-gap-row"><td class="hist-row-label">Gap</td>${makeCells(gapVals, gapCls)}<td class="hist-total-cell ${gapTotal >= 0 ? 'gap-pos' : 'gap-neg'}">${fmtGap(gapTotal)}</td></tr>
         </tbody>
       </table>
     </div>`;
