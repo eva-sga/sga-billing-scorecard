@@ -635,7 +635,7 @@ function renderKPI(d) {
                     ? clamp(d.billable_h / target * 100, 0, 100) : null;
 
   // For month/ytd use planned hours as target baseline
-  const planTarget = d.planned_h > 0 ? d.planned_h : null;
+  const planTarget = (d.planned_billable_h || d.planned_h) || null;
   const planBarW   = planTarget ? clamp(d.billable_h / planTarget * 100, 0, 100) : null;
   const planPct    = planTarget ? d.billable_h / planTarget : null;
   const planClass  = planPct == null ? "na" : planPct >= 1 ? "good" : planPct >= 0.85 ? "warn" : "danger";
