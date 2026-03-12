@@ -20,6 +20,7 @@ AIRTABLE_BASE  = "appUYbP0DH662mQbA"
 AIRTABLE_TABLE = "tblEYS1jZYjIADagB"   # Capacity Planning
 
 WEEKLY_BILLABLE_TARGET = 356
+WEEKLY_TOTAL_TARGET   = 640  # 16 people x 40h default
 BILLABILITY_TARGET     = 0.80
 
 # ─── TEAM MEMBERS ──────────────────────────────────────────────────────────────────────────
@@ -374,6 +375,7 @@ def main():
         "lastUpdated":          datetime.utcnow().isoformat() + "Z",
         "generatedDate":        today.isoformat(),
         "weeklyBillableTarget": WEEKLY_BILLABLE_TARGET,
+        "weeklyTotalTarget":    WEEKLY_TOTAL_TARGET,
         "billabilityTarget":    BILLABILITY_TARGET,
         "week":  week_data,
         "month": month_data,
