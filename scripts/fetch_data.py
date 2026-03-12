@@ -313,13 +313,17 @@ def build_period_metrics(worklogs, capacity, start, end, label):
     total_h_all   = sum(m["total_h"]   for m in members_out)
     bill_h_all    = sum(m["billable_h"] for m in members_out)
     planned_h_all = sum(m["planned_h"]  for m in members_out)
+    wd = working_days(start, end)
+    planned_billable_h = round(WEEKLY_BILLABLE_TARGET * wd / 5, 1)
+    eff_planned = planned_h_all if planned_h_all > 0 else planned_billable_h
     return {
         "label": label, "start": start.isoformat(), "end": end.isoformat(),
-        "total_h":    round(total_h_all, 2),
-        "billable_h": round(bill_h_all, 2),
-        "planned_h":  round(planned_h_all, 2),
-        "gap_h":      round(bill_h_all - planned_h_all, 2) if planned_h_all > 0 else None,
-        "billability": billability(bill_h_all, total_h_all),
+        "total_h":            round(total_h_all, 2),
+        "billable_h":         round(bill_h_all, 2),
+        "planned_h":          round(planned_h_all, 2),
+        "planned_billable_h": planned_billable_h,
+        "gap_h":              round(bill_h_all - eff_planned, 2),
+        "billability":        billability(bill_h_all, total_h_all),
         "members": members_out,
         "teams":   teams_out,
     }
