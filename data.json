@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-12T20:02:17.225213Z",
+  "lastUpdated": "2026-03-12T20:50:58.793088Z",
   "generatedDate": "2026-03-12",
   "weeklyBillableTarget": 356,
   "weeklyTotalTarget": 640,
@@ -8,12 +8,12 @@
     "label": "week",
     "start": "2026-03-09",
     "end": "2026-03-15",
-    "total_h": 282.08,
+    "total_h": 282.75,
     "billable_h": 204.9,
     "planned_h": 0.0,
     "planned_billable_h": 356.0,
     "gap_h": -151.1,
-    "billability": 0.7264,
+    "billability": 0.7247,
     "members": [
       {
         "name": "Adam Ďuriš",
@@ -139,11 +139,11 @@
         "name": "Miroslav Straka",
         "team": "Miro Team",
         "target": 0.8,
-        "total_h": 13.0,
+        "total_h": 13.67,
         "billable_h": 5.67,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.4362
+        "billability": 0.4148
       },
       {
         "name": "Patrik Bajer",
@@ -192,11 +192,11 @@
         "billability": 0.1608
       },
       "Miro Team": {
-        "total_h": 96.58,
+        "total_h": 97.25,
         "billable_h": 73.93,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.7655
+        "billability": 0.7602
       },
       "Maintenance": {
         "total_h": 26.33,
@@ -226,12 +226,12 @@
     "label": "month",
     "start": "2026-03-01",
     "end": "2026-03-31",
-    "total_h": 737.26,
+    "total_h": 737.93,
     "billable_h": 540.33,
     "planned_h": 0.0,
     "planned_billable_h": 1566.4,
     "gap_h": -1026.07,
-    "billability": 0.7329,
+    "billability": 0.7322,
     "members": [
       {
         "name": "Adam Ďuriš",
@@ -357,11 +357,11 @@
         "name": "Miroslav Straka",
         "team": "Miro Team",
         "target": 0.8,
-        "total_h": 47.25,
+        "total_h": 47.92,
         "billable_h": 27.33,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.5784
+        "billability": 0.5703
       },
       {
         "name": "Patrik Bajer",
@@ -410,11 +410,11 @@
         "billability": 0.1954
       },
       "Miro Team": {
-        "total_h": 241.53,
+        "total_h": 242.2,
         "billable_h": 181.93,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.7532
+        "billability": 0.7512
       },
       "Maintenance": {
         "total_h": 71.25,
@@ -443,12 +443,12 @@
     "label": "ytd",
     "start": "2026-01-01",
     "end": "2026-03-12",
-    "total_h": 4053.36,
+    "total_h": 4054.03,
     "billable_h": 2872.65,
     "planned_h": 3230.8,
     "planned_billable_h": 3631.2,
     "gap_h": -358.15,
-    "billability": 0.7087,
+    "billability": 0.7086,
     "members": [
       {
         "name": "Adam Ďuriš",
@@ -574,11 +574,11 @@
         "name": "Miroslav Straka",
         "team": "Miro Team",
         "target": 0.8,
-        "total_h": 335.45,
+        "total_h": 336.12,
         "billable_h": 197.62,
         "planned_h": 262.4,
         "gap_h": -64.78,
-        "billability": 0.5891
+        "billability": 0.5879
       },
       {
         "name": "Patrik Bajer",
@@ -627,11 +627,11 @@
         "billability": 0.3534
       },
       "Miro Team": {
-        "total_h": 1318.26,
+        "total_h": 1318.93,
         "billable_h": 924.92,
         "planned_h": 1082.4,
         "gap_h": -157.48,
-        "billability": 0.7016
+        "billability": 0.7013
       },
       "Maintenance": {
         "total_h": 394.03,
@@ -1096,12 +1096,12 @@
         "label": "Mar 2026",
         "start": "2026-03-01",
         "end": "2026-03-12",
-        "total_h": 737.26,
+        "total_h": 737.93,
         "billable_h": 540.33,
         "planned_h": 0.0,
         "planned_billable_h": 640.8,
         "gap_h": -100.47,
-        "billability": 0.7329,
+        "billability": 0.7322,
         "members": [
           {
             "name": "Adam Ďuriš",
@@ -1227,11 +1227,11 @@
             "name": "Miroslav Straka",
             "team": "Miro Team",
             "target": 0.8,
-            "total_h": 47.25,
+            "total_h": 47.92,
             "billable_h": 27.33,
             "planned_h": 0.0,
             "gap_h": null,
-            "billability": 0.5784
+            "billability": 0.5703
           },
           {
             "name": "Patrik Bajer",
@@ -1280,11 +1280,11 @@
             "billability": 0.1954
           },
           "Miro Team": {
-            "total_h": 241.53,
+            "total_h": 242.2,
             "billable_h": 181.93,
             "planned_h": 0.0,
             "gap_h": null,
-            "billability": 0.7532
+            "billability": 0.7512
           },
           "Maintenance": {
             "total_h": 71.25,
@@ -3702,12 +3702,12 @@
         "label": "W11 09 Mar",
         "start": "2026-03-09",
         "end": "2026-03-12",
-        "total_h": 282.08,
+        "total_h": 282.75,
         "billable_h": 204.9,
         "planned_h": 0.0,
         "planned_billable_h": 284.8,
         "gap_h": -79.9,
-        "billability": 0.7264,
+        "billability": 0.7247,
         "members": [
           {
             "name": "Adam Ďuriš",
@@ -3833,11 +3833,11 @@
             "name": "Miroslav Straka",
             "team": "Miro Team",
             "target": 0.8,
-            "total_h": 13.0,
+            "total_h": 13.67,
             "billable_h": 5.67,
             "planned_h": 0.0,
             "gap_h": null,
-            "billability": 0.4362
+            "billability": 0.4148
           },
           {
             "name": "Patrik Bajer",
@@ -3886,11 +3886,11 @@
             "billability": 0.1608
           },
           "Miro Team": {
-            "total_h": 96.58,
+            "total_h": 97.25,
             "billable_h": 73.93,
             "planned_h": 0.0,
             "gap_h": null,
-            "billability": 0.7655
+            "billability": 0.7602
           },
           "Maintenance": {
             "total_h": 26.33,
