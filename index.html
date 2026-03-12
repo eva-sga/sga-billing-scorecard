@@ -262,6 +262,13 @@ tbody tr:hover { background: rgba(255,255,255,.03); }
   text-align: center;
   color: var(--danger);
 }
+/* — History heatmap cells — */
+.hcell { display:inline-block; padding:3px 8px; border-radius:4px; font-size:13px; font-weight:600; min-width:44px; text-align:center; }
+.hcell.good   { background:var(--success-pale); color:var(--green); }
+.hcell.warn   { background:var(--warning-pale); color:var(--warning); }
+.hcell.danger { background:var(--danger-pale);  color:var(--danger); }
+.hcell.na     { color:var(--text-muted); font-weight:400; }
+.hcell.cur    { outline:2px solid currentColor; outline-offset:-2px; }
 </style>
 </head>
 <body>
