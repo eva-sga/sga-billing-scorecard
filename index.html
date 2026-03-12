@@ -382,13 +382,37 @@ function renderKPI(d) {
   }
   const gapClass = gapH == null ? "na" : gapH >= 0 ? "good" : (gapH >= gapWarnThreshold ? "warn" : "danger");
 
+  // Prorated total-hours target (default 40h/week per person)
+  let totalExpected = null;
+  let totalSubLabel = periodLabel(PERIOD);
+  if (DATA.weeklyTotalTarget) {
+    const ps2 = new Date(d.start + 'T00:00:00');
+    const pe2 = new Date(d.end   + 'T00:00:00');
+    const td2 = new Date(); td2.setHours(0,0,0,0);
+    const ee2 = +td2 < +pe2 ? td2 : pe2;
+    let el2 = 0;
+    for (let c2 = new Date(ps2); c2 <= ee2; c2.setDate(c2.getDate()+1)) {
+      const dw = c2.getDay(); if (dw > 0 && dw < 6) el2++;
+    }
+    totalExpected = +(DATA.weeklyTotalTarget * el2 / 5).toFixed(1);
+    totalSubLabel = PERIOD === 'week'  ? 'pace: ' + totalExpected + 'h expected by today'
+                  : PERIOD === 'month' ? 'pace: ' + totalExpected + 'h expected this month'
+                  :                      'pace: ' + totalExpected + 'h expected YTD';
+  }
+  const totalClass   = totalExpected !== null && d.total_h < totalExpected * 0.9 ? 'warn' : '';
+  const totalFill    = totalExpected > 0 ? Math.min(100, +(d.total_h / totalExpected * 100).toFixed(1)) : 0;
+  const totalBarHtml = totalExpected !== null
+    ? '<div class="kpi-bar"><div class="kpi-bar-fill ' + (totalClass || 'good') + '" style="width:' + totalFill + '%"></div></div>'
+    : '';
+
   return `
   <div class="kpi-row">
 
-    <div class="kpi-card">
+    <div class="kpi-card ${totalClass}">
       <div class="kpi-label">Total Logged Hours</div>
       <div class="kpi-value">${fmt(d.total_h)}<span class="unit">h</span></div>
-      <div class="kpi-sub">${periodLabel(PERIOD)}</div>
+      ${totalBarHtml}
+      <div class="kpi-sub">${totalSubLabel}</div>
     </div>
 
     <div class="kpi-card ${billClass(d.billable_h / Math.max(PERIOD==='week'?target:d.planned_h||1,1), 1)}">
