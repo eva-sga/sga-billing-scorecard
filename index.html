@@ -514,6 +514,13 @@ function renderTeams(d) {
 
 // ── Members Table ──────────────────────────────────────────────────────────────
 function renderTable(d) {
+  // Per-person 40h/week expected, prorated to elapsed working days
+  const _ps = new Date(d.start + 'T00:00:00'), _pe = new Date(d.end + 'T00:00:00');
+  const _td = new Date(); _td.setHours(0,0,0,0);
+  const _ee = +_td < +_pe ? _td : _pe;
+  let _el = 0;
+  for (let _c = new Date(_ps); _c <= _ee; _c.setDate(_c.getDate()+1)) { const _dw=_c.getDay(); if(_dw>0&&_dw<6) _el++; }
+  const personExp = +(40 * _el / 5).toFixed(1);
   const members = (d.members || [])
     .slice()
     .sort((a, b) => {
