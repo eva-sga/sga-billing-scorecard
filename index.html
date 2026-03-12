@@ -588,53 +588,6 @@ function renderTable(d) {
 
 // ── Render ─────────────────────────────────────────────────────────────────────
 function render() {
-  if (!DATA) return;
-  const d   = DATA[PERIOD];
-  const app = document.getElementById("app");
-  if (!d) { app.innerHTML = `<div class="error-box">No data for period "${PERIOD}"</div>`; return; }
-
-  app.innerHTML = renderKPI(d) + renderTeams(d) + renderTable(d);
-
-  document.getElementById("last-updated-time").textContent =
-    relativeDate(DATA.lastUpdated);
-}
-
-function setPeriod(p) {
-  PERIOD = p;
-  document.querySelectorAll(".tab").forEach(t => {
-    t.classList.toggle("active", t.dataset.period === p);
-  });
-  render();
-}
-
-// ── Bootstrap ──────────────────────────────────────────────────────────────────
-async function init() {
-  try {
-    const resp = await fetch("data.json?t=" + Date.now());
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    DATA = await resp.json();
-    render();
-
-    // Refresh display timestamp every minute
-    setInterval(() => {
-      const el = document.getElementById("last-updated-time");
-      if (el && DATA) el.textContent = relativeDate(DATA.lastUpdated);
-    }, 60000);
-
-  } catch (err) {
-    document.getElementById("app").innerHTML = `
-      <div class="error-box">
-        <strong>Could not load billing data</strong><br>
-        ${err.message}<br><br>
-        <small>Make sure data.json exists and the GitHub Action has run at least once.</small>
-      </div>`;
-  }
-}
-
-init();
-</script>
-</body>
-</html>  function render() {
     if (!DATA) return;
     const app = document.getElementById("app");
     document.getElementById("last-updated-time").textContent = relativeDate(DATA.lastUpdated);
@@ -898,17 +851,6 @@ function renderTable(d) {
 }
 
 // ── Render ─────────────────────────────────────────────────────────────────────
-function render() {
-  if (!DATA) return;
-  const d   = DATA[PERIOD];
-  const app = document.getElementById("app");
-  if (!d) { app.innerHTML = `<div class="error-box">No data for period "${PERIOD}"</div>`; return; }
-
-  app.innerHTML = renderKPI(d) + renderTeams(d) + renderTable(d);
-
-  document.getElementById("last-updated-time").textContent =
-    relativeDate(DATA.lastUpdated);
-}
 
 function setPeriod(p) {
   PERIOD = p;
@@ -992,3 +934,7 @@ init();
   }
 
 
+
+</script>
+</body>
+</html>
