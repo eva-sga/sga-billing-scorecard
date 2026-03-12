@@ -1,5 +1,5 @@
 {
-  "lastUpdated": "2026-03-12T08:07:45.442001Z",
+  "lastUpdated": "2026-03-12T08:13:05.421328Z",
   "generatedDate": "2026-03-12",
   "weeklyBillableTarget": 356,
   "billabilityTarget": 0.8,
@@ -7,11 +7,11 @@
     "label": "week",
     "start": "2026-03-09",
     "end": "2026-03-15",
-    "total_h": 228.36,
-    "billable_h": 160.67,
+    "total_h": 228.61,
+    "billable_h": 160.92,
     "planned_h": 0.0,
     "gap_h": null,
-    "billability": 0.7036,
+    "billability": 0.7039,
     "members": [
       {
         "name": "Adam Ďuriš",
@@ -127,8 +127,8 @@
         "name": "Michal Srníček",
         "team": "Patrik Team",
         "target": 0.8,
-        "total_h": 0.67,
-        "billable_h": 0.67,
+        "total_h": 0.92,
+        "billable_h": 0.92,
         "planned_h": 0.0,
         "gap_h": null,
         "billability": 1.0
@@ -176,11 +176,11 @@
     ],
     "teams": {
       "Patrik Team": {
-        "total_h": 41.46,
-        "billable_h": 35.29,
+        "total_h": 41.71,
+        "billable_h": 35.54,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.8512
+        "billability": 0.8521
       },
       "Apps Team": {
         "total_h": 24.38,
@@ -224,11 +224,11 @@
     "label": "month",
     "start": "2026-03-01",
     "end": "2026-03-31",
-    "total_h": 683.84,
-    "billable_h": 496.41,
+    "total_h": 684.09,
+    "billable_h": 496.66,
     "planned_h": 0.0,
     "gap_h": null,
-    "billability": 0.7259,
+    "billability": 0.726,
     "members": [
       {
         "name": "Adam Ďuriš",
@@ -344,11 +344,11 @@
         "name": "Michal Srníček",
         "team": "Patrik Team",
         "target": 0.8,
-        "total_h": 32.67,
-        "billable_h": 31.42,
+        "total_h": 32.92,
+        "billable_h": 31.67,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.9617
+        "billability": 0.962
       },
       {
         "name": "Miroslav Straka",
@@ -393,11 +393,11 @@
     ],
     "teams": {
       "Patrik Team": {
-        "total_h": 182.95,
-        "billable_h": 164.56,
+        "total_h": 183.2,
+        "billable_h": 164.81,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.8995
+        "billability": 0.8996
       },
       "Apps Team": {
         "total_h": 66.2,
@@ -440,8 +440,8 @@
     "label": "ytd",
     "start": "2026-01-01",
     "end": "2026-03-12",
-    "total_h": 3999.94,
-    "billable_h": 2828.73,
+    "total_h": 4000.19,
+    "billable_h": 2828.98,
     "planned_h": 0.0,
     "gap_h": null,
     "billability": 0.7072,
@@ -560,11 +560,11 @@
         "name": "Michal Srníček",
         "team": "Patrik Team",
         "target": 0.8,
-        "total_h": 259.08,
-        "billable_h": 237.33,
+        "total_h": 259.33,
+        "billable_h": 237.58,
         "planned_h": 0.0,
         "gap_h": null,
-        "billability": 0.916
+        "billability": 0.9161
       },
       {
         "name": "Miroslav Straka",
@@ -609,8 +609,8 @@
     ],
     "teams": {
       "Patrik Team": {
-        "total_h": 1178.83,
-        "billable_h": 989.59,
+        "total_h": 1179.08,
+        "billable_h": 989.84,
         "planned_h": 0.0,
         "gap_h": null,
         "billability": 0.8395
