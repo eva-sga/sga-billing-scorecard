@@ -362,20 +362,25 @@ function renderKPI(d) {
 
   let gapH = d.gap_h;
   let gapSubLabel = null;
-  if (gapH == null && PERIOD === 'week' && DATA.weeklyBillableTarget) {
-    const weekStart = new Date(d.start + 'T00:00:00');
-    const weekEndDate = new Date(d.end + 'T00:00:00');
+  let gapWarnThreshold = -35;
+  if (gapH == null && DATA.weeklyBillableTarget) {
+    const periodStart = new Date(d.start + 'T00:00:00');
+    const periodEnd   = new Date(d.end   + 'T00:00:00');
     const today = new Date(); today.setHours(0,0,0,0);
-    let elapsed = 0, total = 0;
-    for (let cur = new Date(weekStart); cur <= weekEndDate; cur.setDate(cur.getDate()+1)) {
+    const effEnd = +today < +periodEnd ? today : periodEnd;
+    let elapsed = 0;
+    for (let cur = new Date(periodStart); cur <= effEnd; cur.setDate(cur.getDate()+1)) {
       const dow = cur.getDay();
-      if (dow > 0 && dow < 6) { total++; if (+cur <= +today) elapsed++; }
+      if (dow > 0 && dow < 6) elapsed++;
     }
-    const expected = total > 0 ? +(DATA.weeklyBillableTarget * elapsed / total).toFixed(1) : DATA.weeklyBillableTarget;
+    const expected = +(DATA.weeklyBillableTarget * elapsed / 5).toFixed(1);
     gapH = +(d.billable_h - expected).toFixed(1);
-    gapSubLabel = 'pace: ' + expected + 'h expected by today';
+    gapWarnThreshold = expected > 0 ? -(expected * 0.10) : -35;
+    if (PERIOD === 'week')        gapSubLabel = 'pace: ' + expected + 'h expected by today';
+    else if (PERIOD === 'month')  gapSubLabel = 'pace: ' + expected + 'h expected this month';
+    else                          gapSubLabel = 'pace: ' + expected + 'h expected YTD';
   }
-  const gapClass = gapH == null ? "na" : gapH >= 0 ? "good" : (gapH >= -35 ? "warn" : "danger");
+  const gapClass = gapH == null ? "na" : gapH >= 0 ? "good" : (gapH >= gapWarnThreshold ? "warn" : "danger");
 
   return `
   <div class="kpi-row">
