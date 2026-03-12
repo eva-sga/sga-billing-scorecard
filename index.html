@@ -959,8 +959,8 @@ function setHistoryMode(m) {
           ${headers}<th class="hist-period hist-total">TOTAL</th>
         </tr></thead>
         <tbody>
-          <tr><td class="hist-row-label">Billable (BT)</td>${makeCells(btVals)}<td class="hist-total-cell">${fmtH(btTotal)}</td></tr>
           <tr><td class="hist-row-label">Planned</td>${makeCells(planVals)}<td class="hist-total-cell">${fmtH(planTotal)}</td></tr>
+          <tr><td class="hist-row-label">Billable (BT)</td>${makeCells(btVals)}<td class="hist-total-cell">${fmtH(btTotal)}</td></tr>
           <tr class="hist-gap-row"><td class="hist-row-label">Gap</td>${makeCells(gapVals, gapCls)}<td class="hist-total-cell ${gapTotal >= 0 ? 'gap-pos' : 'gap-neg'}">${fmtGap(gapTotal)}</td></tr>
         </tbody>
       </table>
