@@ -885,9 +885,7 @@ async function init() {
 }
 
 init();
-</script>
-</body>
-</html>  function setHistoryMode(m) {
+function setHistoryMode(m) {
     HISTORY_MODE = m;
     document.querySelectorAll(".htab").forEach(t => t.classList.toggle("active", t.dataset.hmode === m));
     render();
