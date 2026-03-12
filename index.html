@@ -284,6 +284,7 @@ tbody tr:hover { background: rgba(255,255,255,.03); }
     <button class="tab active" data-period="week"  onclick="setPeriod('week')">This Week</button>
     <button class="tab"        data-period="month" onclick="setPeriod('month')">This Month</button>
     <button class="tab"        data-period="ytd"   onclick="setPeriod('ytd')">Year to Date</button>
+    <button class="tab" data-period="history" onclick="setPeriod('history')">History</button>
   </div>
 
   <!-- Main content injected here -->
@@ -300,6 +301,7 @@ tbody tr:hover { background: rgba(255,255,255,.03); }
 // ── State ──────────────────────────────────────────────────────────────────────
 let DATA     = null;
 let PERIOD   = "week";
+  let HISTORY_MODE = 'months';
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 const fmt   = n => n == null ? "—" : n.toFixed(1);
@@ -632,4 +634,361 @@ async function init() {
 init();
 </script>
 </body>
-</html>
+</html>  function render() {
+    if (!DATA) return;
+    const app = document.getElementById("app");
+    document.getElementById("last-updated-time").textContent = relativeDate(DATA.lastUpdated);
+    if (PERIOD === 'history') { app.innerHTML = renderHistory(); return; }
+    const d = DATA[PERIOD];
+    if (!d) { app.innerHTML = `<div class="error-box">No data for period "${PERIOD}"</div>`; return; }
+    app.innerHTML = renderKPI(d) + renderTeams(d) + renderTable(d);
+  } catch { return isoStr; }
+}
+
+function periodLabel(p) {
+  if (!DATA) return "";
+  const d = DATA[p];
+  if (!d) return "";
+  if (p === "week") {
+    const s = new Date(d.start), e = new Date(d.end);
+    return `${s.toLocaleDateString("en-GB",{day:"numeric",month:"short"})} – ${e.toLocaleDateString("en-GB",{day:"numeric",month:"short"})}`;
+  }
+  if (p === "month") {
+    return new Date(d.start).toLocaleDateString("en-GB",{month:"long", year:"numeric"});
+  }
+  return `1 Jan – ${new Date(d.end).toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"})}`;
+}
+
+// ── KPI Cards ──────────────────────────────────────────────────────────────────
+function renderKPI(d) {
+  const target  = DATA.weeklyBillableTarget;
+  const billPct = d.billability;
+  const bc      = billClass(billPct, DATA.billabilityTarget);
+  const barW    = d.billable_h > 0 && target > 0 && PERIOD === "week"
+                    ? clamp(d.billable_h / target * 100, 0, 100) : null;
+
+  // For month/ytd use planned hours as target baseline
+  const planTarget = d.planned_h > 0 ? d.planned_h : null;
+  const planBarW   = planTarget ? clamp(d.billable_h / planTarget * 100, 0, 100) : null;
+  const planPct    = planTarget ? d.billable_h / planTarget : null;
+  const planClass  = planPct == null ? "na" : planPct >= 1 ? "good" : planPct >= 0.85 ? "warn" : "danger";
+
+  let gapH = d.gap_h;
+  let gapSubLabel = null;
+  let gapWarnThreshold = -35;
+  if (gapH == null && DATA.weeklyBillableTarget) {
+    const periodStart = new Date(d.start + 'T00:00:00');
+    const periodEnd   = new Date(d.end   + 'T00:00:00');
+    const today = new Date(); today.setHours(0,0,0,0);
+    const effEnd = +today < +periodEnd ? today : periodEnd;
+    let elapsed = 0;
+    for (let cur = new Date(periodStart); cur <= effEnd; cur.setDate(cur.getDate()+1)) {
+      const dow = cur.getDay();
+      if (dow > 0 && dow < 6) elapsed++;
+    }
+    const expected = +(DATA.weeklyBillableTarget * elapsed / 5).toFixed(1);
+    gapH = +(d.billable_h - expected).toFixed(1);
+    gapWarnThreshold = expected > 0 ? -(expected * 0.10) : -35;
+    if (PERIOD === 'week')        gapSubLabel = 'pace: ' + expected + 'h expected by today';
+    else if (PERIOD === 'month')  gapSubLabel = 'pace: ' + expected + 'h expected this month';
+    else                          gapSubLabel = 'pace: ' + expected + 'h expected YTD';
+  }
+  const gapClass = gapH == null ? "na" : gapH >= 0 ? "good" : (gapH >= gapWarnThreshold ? "warn" : "danger");
+
+  // Prorated total-hours target (default 40h/week per person)
+  let totalExpected = null;
+  let totalSubLabel = periodLabel(PERIOD);
+  if (DATA.weeklyTotalTarget) {
+    const ps2 = new Date(d.start + 'T00:00:00');
+    const pe2 = new Date(d.end   + 'T00:00:00');
+    const td2 = new Date(); td2.setHours(0,0,0,0);
+    const ee2 = +td2 < +pe2 ? td2 : pe2;
+    let el2 = 0;
+    for (let c2 = new Date(ps2); c2 <= ee2; c2.setDate(c2.getDate()+1)) {
+      const dw = c2.getDay(); if (dw > 0 && dw < 6) el2++;
+    }
+    totalExpected = +(DATA.weeklyTotalTarget * el2 / 5).toFixed(1);
+    totalSubLabel = PERIOD === 'week'  ? 'pace: ' + totalExpected + 'h expected by today'
+                  : PERIOD === 'month' ? 'pace: ' + totalExpected + 'h expected this month'
+                  :                      'pace: ' + totalExpected + 'h expected YTD';
+  }
+  const totalClass   = totalExpected !== null && d.total_h < totalExpected * 0.9 ? 'warn' : '';
+  const totalFill    = totalExpected > 0 ? Math.min(100, +(d.total_h / totalExpected * 100).toFixed(1)) : 0;
+  const totalBarHtml = totalExpected !== null
+    ? '<div class="progress-wrap"><div class="progress-bar-bg"><div class="progress-bar-fill ' + (totalClass || 'good') + '" style="width:' + totalFill + '%"></div></div></div>'
+    : '';
+
+  return `
+  <div class="kpi-row">
+
+    <div class="kpi-card ${totalClass}">
+      <div class="kpi-label">Total Logged Hours</div>
+      <div class="kpi-value">${fmt(d.total_h)}<span class="unit">h</span></div>
+      ${totalBarHtml}
+      <div class="kpi-sub">${totalSubLabel}</div>
+    </div>
+
+    <div class="kpi-card ${billClass(d.billable_h / Math.max(PERIOD==='week'?target:d.planned_h||1,1), 1)}">
+      <div class="kpi-label">Billable Hours</div>
+      <div class="kpi-value">${fmt(d.billable_h)}<span class="unit">h</span></div>
+      <div class="kpi-sub">
+        ${PERIOD === "week"
+          ? `of <strong>${target}h</strong> weekly target`
+          : planTarget ? `of <strong>${fmt(planTarget)}h</strong> planned` : "no plan set"}
+      </div>
+      ${PERIOD === "week" && barW !== null ? `
+        <div class="progress-wrap">
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill ${barW >= 100 ? "good" : barW >= 80 ? "warn" : "danger"}" style="width:${barW}%"></div>
+          </div>
+        </div>` : ""}
+      ${PERIOD !== "week" && planBarW !== null ? `
+        <div class="progress-wrap">
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill ${planClass}" style="width:${clamp(planBarW, 0, 100)}%"></div>
+          </div>
+        </div>` : ""}
+    </div>
+
+    <div class="kpi-card ${bc}">
+      <div class="kpi-label">Team Billability</div>
+      <div class="kpi-value" style="color:${bc==='good'?'var(--green)':bc==='warn'?'var(--warning)':'var(--danger)'}">
+        ${fmtPct(billPct)}
+      </div>
+      <div class="kpi-sub">Target: <strong style="color:var(--text)">${Math.round(DATA.billabilityTarget*100)}%</strong></div>
+      <div class="progress-wrap">
+        <div class="progress-bar-bg" style="position:relative">
+          <div class="progress-bar-fill ${bc}" style="width:${billPct ? clamp(billPct*100, 0, 120) : 0}%"></div>
+          <div class="progress-target" style="left:${DATA.billabilityTarget*100}%"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="kpi-card ${gapClass}">
+      <div class="kpi-label">Plan vs Actual Gap</div>
+      <div class="kpi-value" style="color:${gapClass==='good'?'var(--green)':gapClass==='warn'?'var(--warning)':'var(--danger)'}">
+        ${gapH == null ? "—" : (gapH >= 0 ? "+" : "") + fmt(gapH)}<span class="unit">${gapH != null ? "h" : ""}</span>
+      </div>
+      <div class="kpi-sub">
+        ${gapH == null
+              ? "No plan data"
+              : gapH >= 0
+                ? '<span class="pos">Ahead of pace 🎉</span>' + (gapSubLabel ? '<br><small style="color:var(--text-muted);font-size:11px">' + gapSubLabel + '</small>' : '')
+                : '<span class="neg">' + fmt(Math.abs(gapH)) + 'h behind pace</span>' + (gapSubLabel ? '<br><small style="color:var(--text-muted);font-size:11px">' + gapSubLabel + '</small>' : '')}
+      </div>
+    </div>
+
+  </div>`;
+}
+
+// ── Team Cards ──────────────────────────────────────────────────────────────────
+const TEAM_ORDER = ["Patrik Team","Miro Team","Apps Team","Maintenance","Independent","Management"];
+
+function renderTeams(d) {
+  const teams = d.teams || {};
+  const cards = TEAM_ORDER.filter(t => teams[t]).map(teamName => {
+    const t  = teams[teamName];
+    const bc = billClass(t.billability, DATA.billabilityTarget);
+    return `
+    <div class="team-card">
+      <div class="team-name">${teamName}</div>
+      <div class="bill-pct ${bc}">${fmtPct(t.billability)}</div>
+      <div class="team-metric">
+        <span class="team-metric-label">Billable</span>
+        <span class="team-metric-value">${fmtH(t.billable_h)}</span>
+      </div>
+      <div class="team-metric">
+        <span class="team-metric-label">Total</span>
+        <span class="team-metric-value">${fmtH(t.total_h)}</span>
+      </div>
+      ${t.planned_h > 0 ? `
+      <div class="team-metric">
+        <span class="team-metric-label">Planned</span>
+        <span class="team-metric-value">${fmtH(t.planned_h)}</span>
+      </div>
+      <div class="team-metric">
+        <span class="team-metric-label">Gap</span>
+        <span class="team-metric-value ${t.gap_h >= 0 ? 'gap-pos' : 'gap-neg'}">${t.gap_h >= 0 ? "+" : ""}${fmtH(t.gap_h)}</span>
+      </div>` : ""}
+      <div class="progress-wrap" style="margin-top:10px">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill ${bc}" style="width:${t.billability ? clamp(t.billability*100, 0, 100) : 0}%"></div>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+
+  return `
+  <div class="section-header">
+    <span class="section-title">Sub-team Breakdown</span>
+  </div>
+  <div class="teams-row">${cards}</div>`;
+}
+
+// ── Members Table ──────────────────────────────────────────────────────────────
+function renderTable(d) {
+  // Per-person 40h/week expected, prorated to elapsed working days
+  const _ps = new Date(d.start + 'T00:00:00'), _pe = new Date(d.end + 'T00:00:00');
+  const _td = new Date(); _td.setHours(0,0,0,0);
+  const _ee = +_td < +_pe ? _td : _pe;
+  let _el = 0;
+  for (let _c = new Date(_ps); _c <= _ee; _c.setDate(_c.getDate()+1)) { const _dw=_c.getDay(); if(_dw>0&&_dw<6) _el++; }
+  const personExp = +(40 * _el / 5).toFixed(1);
+  const members = (d.members || [])
+    .slice()
+    .sort((a, b) => {
+      // Sort: billable members by billability desc, non-billable at bottom
+      if (a.target === 0 && b.target > 0) return 1;
+      if (a.target > 0 && b.target === 0) return -1;
+      return (b.billability ?? -1) - (a.billability ?? -1);
+    });
+
+  const rows = members.map(m => {
+    const bc   = m.target > 0 ? billClass(m.billability, m.target) : "na";
+    const barW = m.billability ? clamp(m.billability * 100, 0, 100) : 0;
+    const gapH = m.gap_h;
+    const gapClass = gapH == null ? "gap-na" : gapH >= 0 ? "gap-pos" : "gap-neg";
+    const billDisplay = m.target > 0 ? fmtPct(m.billability) : "N/A";
+
+    const effGapH = m.planned_h > 0 ? gapH : (personExp > 0 ? +(m.total_h - personExp).toFixed(1) : null);
+    const effGapClass = effGapH == null ? 'gap-na' : effGapH >= 0 ? 'gap-pos' : 'gap-neg';
+    return `
+    <tr>
+      <td class="name-cell">
+        <strong>${m.name}</strong>
+        <span>${m.team}</span>
+      </td>
+      <td class="r">${personExp > 0 ? '<span class="' + (m.total_h >= personExp ? 'gap-pos' : m.total_h >= personExp*0.9 ? '' : 'gap-neg') + '">' + fmtH(m.total_h) + '</span><small style="display:block;font-size:11px;color:var(--text-muted)">exp. ' + personExp + 'h</small>' : fmtH(m.total_h)}</td>
+      <td class="r">${fmtH(m.billable_h)}</td>
+      <td class="r">${m.planned_h > 0 ? fmtH(m.planned_h) : personExp > 0 ? fmtH(personExp) : "—"}</td>
+      <td class="r ${effGapClass}">${effGapH == null ? "—" : (effGapH >= 0 ? "+" : "") + fmt(effGapH) + "h"}</td>
+      <td class="r">
+        ${m.target > 0 ? `
+          <span class="mini-bar"><span class="mini-fill ${bc}" style="width:${barW}%"></span></span>
+          <span class="pill ${bc}">${billDisplay}</span>` :
+          `<span class="pill na">N/A</span>`}
+      </td>
+      <td class="r" style="color:var(--text-muted);font-size:12px">
+        ${m.target > 0 ? Math.round(m.target * 100) + "%" : "—"}
+      </td>
+    </tr>`;
+  }).join("");
+
+  return `
+  <div class="section-header">
+    <span class="section-title">Individual Breakdown</span>
+    <span class="section-badge">${members.length} people</span>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Team Member</th>
+          <th class="r">Total<small style="display:block;font-weight:400;font-size:10px;color:var(--text-muted)">40h/wk exp.</small></th>
+          <th class="r">Billable</th>
+          <th class="r">Planned</th>
+          <th class="r">Gap</th>
+          <th class="r">Billability</th>
+          <th class="r">Target</th>
+        </tr>
+      </thead>
+      <tbody>${rows}</tbody>
+    </table>
+  </div>`;
+}
+
+// ── Render ─────────────────────────────────────────────────────────────────────
+function render() {
+  if (!DATA) return;
+  const d   = DATA[PERIOD];
+  const app = document.getElementById("app");
+  if (!d) { app.innerHTML = `<div class="error-box">No data for period "${PERIOD}"</div>`; return; }
+
+  app.innerHTML = renderKPI(d) + renderTeams(d) + renderTable(d);
+
+  document.getElementById("last-updated-time").textContent =
+    relativeDate(DATA.lastUpdated);
+}
+
+function setPeriod(p) {
+  PERIOD = p;
+  document.querySelectorAll(".tab").forEach(t => {
+    t.classList.toggle("active", t.dataset.period === p);
+  });
+  render();
+}
+
+// ── Bootstrap ──────────────────────────────────────────────────────────────────
+async function init() {
+  try {
+    const resp = await fetch("data.json?t=" + Date.now());
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    DATA = await resp.json();
+    render();
+
+    // Refresh display timestamp every minute
+    setInterval(() => {
+      const el = document.getElementById("last-updated-time");
+      if (el && DATA) el.textContent = relativeDate(DATA.lastUpdated);
+    }, 60000);
+
+  } catch (err) {
+    document.getElementById("app").innerHTML = `
+      <div class="error-box">
+        <strong>Could not load billing data</strong><br>
+        ${err.message}<br><br>
+        <small>Make sure data.json exists and the GitHub Action has run at least once.</small>
+      </div>`;
+  }
+}
+
+init();
+</script>
+</body>
+</html>  function setHistoryMode(m) {
+    HISTORY_MODE = m;
+    document.querySelectorAll(".htab").forEach(t => t.classList.toggle("active", t.dataset.hmode === m));
+    render();
+  }
+
+  function renderHistory() {
+    if (!DATA || !DATA.history) return '<div class="error-box">No history data yet — run the workflow first.</div>';
+    const periods = HISTORY_MODE === 'months' ? DATA.history.months : DATA.history.weeks;
+    if (!periods || !periods.length) return '<div class="error-box">No history data yet.</div>';
+    const today = DATA.generatedDate;
+    const isCur = p => HISTORY_MODE === 'months' ? p.start.slice(0,7) === today.slice(0,7) : p.start <= today && p.end >= today;
+    const members = (periods[periods.length-1].members || []);
+    const headers = periods.map(p => `<th${isCur(p)?' style="color:var(--green)"':''}>
+        ${p.label.replace(' ','<br>')}</th>`).join('');
+    const summaryRow = `<tr class="history-summary-row">
+      <td class="sticky-col" style="min-width:160px">Team Total</td>
+      ${periods.map(p => {
+        const bc = p.billability==null?'na':p.billability>=DATA.billabilityTarget?'good':p.billability>=DATA.billabilityTarget-.1?'warn':'danger';
+        return `<td><span class="hcell ${bc}${isCur(p)?' cur':''}">${p.billability!=null?Math.round(p.billability*100)+'%':'—'}</span></td>`;
+      }).join('')}
+    </tr>`;
+    const memberRows = members.map(m => {
+      const cells = periods.map(p => {
+        const pm = (p.members||[]).find(x => x.name===m.name);
+        if (!pm||pm.target===0) return '<td><span class="hcell na">N/A</span></td>';
+        const bc = pm.billability==null?'na':pm.billability>=pm.target?'good':pm.billability>=pm.target-.1?'warn':'danger';
+        return `<td><span class="hcell ${bc}${isCur(p)?' cur':''}">${Math.round(pm.billability*100)}%</span></td>`;
+      }).join('');
+      return `<tr><td class="sticky-col name-cell"><strong>${m.name}</strong><span>${m.team}</span></td>${cells}</tr>`;
+    }).join('');
+    return `<div class="history-controls">
+      <div class="history-toggle">
+        <button class="htab ${HISTORY_MODE==='months'?'active':''}" data-hmode="months" onclick="setHistoryMode('months')">Monthly</button>
+        <button class="htab ${HISTORY_MODE==='weeks'?'active':''}" data-hmode="weeks" onclick="setHistoryMode('weeks')">Weekly</button>
+      </div>
+      <span style="font-size:12px;color:var(--text-muted)">Billability % · outlined border = current period</span>
+    </div>
+    <div class="history-table-wrap">
+      <table class="history-table">
+        <thead><tr><th class="sticky-col" style="min-width:160px">Team Member</th>${headers}</tr></thead>
+        <tbody>${summaryRow}${memberRows}</tbody>
+      </table>
+    </div>`;
+  }
+
+
