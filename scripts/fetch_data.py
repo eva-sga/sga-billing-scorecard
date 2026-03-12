@@ -371,6 +371,28 @@ def main():
     ytd_data   = build_period_metrics(wl_y, capacity, ys, ye, "ytd")
     week_data["team_weekly_target"] = WEEKLY_BILLABLE_TARGET
 
+    # ── Historical periods (reuses already-fetched worklogs — no extra API calls) ──
+    print("\nComputing historical periods...")
+    history_months = []
+    m_iter = date(ys.year, 1, 1)
+    while m_iter <= today:
+        m_end = (date(m_iter.year, m_iter.month % 12 + 1, 1) - timedelta(days=1)) if m_iter.month < 12 else date(m_iter.year, 12, 31)
+        m_end = min(m_end, today)
+        wl = compute_totals(team_worklogs, m_iter.isoformat(), m_end.isoformat())
+        history_months.append(build_period_metrics(wl, capacity, m_iter, m_end, m_iter.strftime("%b %Y")))
+        m_iter = date(m_iter.year, m_iter.month % 12 + 1, 1) if m_iter.month < 12 else date(m_iter.year + 1, 1, 1)
+
+    history_weeks = []
+    this_monday = today - timedelta(days=today.weekday())
+    w_start = this_monday - timedelta(weeks=11)
+    while w_start <= today:
+        w_end = min(w_start + timedelta(days=6), today)
+        wl = compute_totals(team_worklogs, w_start.isoformat(), w_end.isoformat())
+        iso_w = w_start.isocalendar()[1]
+        history_weeks.append(build_period_metrics(wl, capacity, w_start, w_end, f"W{iso_w} {w_start.strftime('%d %b')}"))
+        w_start += timedelta(weeks=1)
+    print(f"  {len(history_months)} months, {len(history_weeks)} weeks computed.")
+
     output = {
         "lastUpdated":          datetime.utcnow().isoformat() + "Z",
         "generatedDate":        today.isoformat(),
@@ -380,6 +402,10 @@ def main():
         "week":  week_data,
         "month": month_data,
         "ytd":   ytd_data,
+        "history": {
+            "months": history_months,
+            "weeks":  history_weeks,
+        },
     }
 
     out_path = os.path.join(os.path.dirname(__file__), "..", "data.json")
