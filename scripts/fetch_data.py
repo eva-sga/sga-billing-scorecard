@@ -257,8 +257,9 @@ def build_period_metrics(worklogs, capacity, start, end, label):
         wl        = worklogs.get(aid, {"total_seconds": 0, "billable_seconds": 0})
         total_h   = secs_to_h(wl["total_seconds"])
         bill_h    = secs_to_h(wl["billable_seconds"])
+        cap_name = DISPLAY_NAMES.get(m["name"], m["name"])
         planned_h = round(sum(
-            (capacity.get(f"{m['name']}|{mo}", 0) or 0) * prorate(mo)
+            (capacity.get(f"{cap_name}|{mo}", 0) or 0) * prorate(mo)
             for mo in months
         ), 2)
         gap     = round(bill_h - planned_h, 2) if planned_h > 0 else None
