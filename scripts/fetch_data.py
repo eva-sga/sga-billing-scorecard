@@ -164,8 +164,7 @@ def search_issues_with_worklogs(start_date: str, end_date: str) -> list:
     user_list = ",".join(f'"{uid}"' for uid in ACCOUNT_IDS)
     jql = (
         f'worklogAuthor in ({user_list}) '
-        f'AND worklogDate >= "{start_date}" '
-        f'AND worklogDate <= "{end_date}"'
+        f'AND updated >= "{start_date}"'
     )
     issues  = []
     start_at = 0
