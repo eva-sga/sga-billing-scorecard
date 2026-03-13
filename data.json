@@ -1,6 +1,6 @@
 {
-  "lastUpdated": "2026-03-13T00:00:13.342645Z",
-  "generatedDate": "2026-03-12",
+  "lastUpdated": "2026-03-13T02:50:14.677926Z",
+  "generatedDate": "2026-03-13",
   "weeklyBillableTarget": 356,
   "weeklyTotalTarget": 640,
   "billabilityTarget": 0.8,
@@ -442,11 +442,11 @@
   "ytd": {
     "label": "ytd",
     "start": "2026-01-01",
-    "end": "2026-03-12",
+    "end": "2026-03-13",
     "total_h": 4065.56,
     "billable_h": 2884.57,
     "planned_h": 3230.8,
-    "planned_billable_h": 3631.2,
+    "planned_billable_h": 3702.4,
     "gap_h": -346.23,
     "billability": 0.7095,
     "members": [
@@ -1095,12 +1095,12 @@
       {
         "label": "Mar 2026",
         "start": "2026-03-01",
-        "end": "2026-03-12",
+        "end": "2026-03-13",
         "total_h": 749.44,
         "billable_h": 552.25,
         "planned_h": 0.0,
-        "planned_billable_h": 640.8,
-        "gap_h": -88.55,
+        "planned_billable_h": 712.0,
+        "gap_h": -159.75,
         "billability": 0.7369,
         "members": [
           {
@@ -3701,12 +3701,12 @@
       {
         "label": "W11 09 Mar",
         "start": "2026-03-09",
-        "end": "2026-03-12",
+        "end": "2026-03-13",
         "total_h": 294.27,
         "billable_h": 216.82,
         "planned_h": 0.0,
-        "planned_billable_h": 284.8,
-        "gap_h": -67.98,
+        "planned_billable_h": 356.0,
+        "gap_h": -139.18,
         "billability": 0.7368,
         "members": [
           {
